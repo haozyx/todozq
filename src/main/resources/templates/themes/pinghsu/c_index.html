@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="themes/pinghsu/header::header('好帮手资源分享网','资源分享，老司机，破解版，精品资源，安卓破解，老司机软件，手机软件，免费分享，精品教程，网站源码，福利APP')"></div>
+<body style="background-color: #f7f7f7!important;" >
+<div class="main-content common-page clearfix">
+		<div class="common-item">
+			<div class="common-title">所有分类 : ☻</div>
+			<div class="post-lists">
+				<div class="post-lists-body">
+					<div class="post-list-item" th:each="c : ${categories}">
+						<div class="post-list-item-container ">
+							<div class="item-label ">
+								<div class="item-title">
+								<th:block th:if="${c.encrypt} eq 1">
+										<a href="javascript:void(0);" th:text="${c.name}" th:onclick="'javascript:validpass(\''+${c.id}+'\');'"> </a>
+								</th:block>
+								<th:block th:if="${c.encrypt} eq 0">
+										<a th:href="@{'/blog/c/'+${c.id}}" th:text="${c.name}"> </a>
+								</th:block>
+								
+									<span style="display: block;" th:text="${c.introduction}"></span>
+								</div>
+								<div class="item-meta clearfix">
+									<div th:class="'item-meta-ico '+${commons.show_icon(c.id)}"
+										th:style="'background: url('+@{/img/bg-ico.png}+');no-repeat;background-size: 40px auto;' "></div>
+									<div class="item-meta-date" th:text="${nowdate}">Jan 20, 2019</div>
+								</div>
+							</div>
+						</div>
+					</div>
+		   
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		function validpass(cid){
+			layer.prompt({title: '输入访问密码，并确认', formType: 1}, function(pass, index){
+				 
+					$.ajax({
+						cache : true,
+						type : "POST",
+						url : "/blog/validcpass",
+						data :{pass:pass,categoryId:cid}, 
+						error : function(request) {
+							layer.alert("Connection error");
+						},
+						success : function(data) {
+							if (data.code == 0) {
+								 layer.close(index);
+								 //然后跳转
+								location.href="/blog/c/"+cid;
+							} else {
+								layer.alert(data.msg)
+							}
+
+						}
+					});
+				  
+				});
+		}
+	</script>
+	
+</body>
+ <div th:replace="themes/pinghsu/footer::footer"></div> 
+</html>

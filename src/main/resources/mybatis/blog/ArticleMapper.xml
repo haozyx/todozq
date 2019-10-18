@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.blog.dao.ArticleDao">
+
+	<select id="get" resultType="com.bootdo.blog.domain.ArticleDO">
+		select `id`,`user_id`,`article_content`,`article_content_md`,`tags`,`category`,`article_newstime`,`article_status`,`article_summary`,`article_thumbnail`,`article_title`,`article_type`,`article_post`,`article_comment`,`article_updatetime`,`article_url`,`article_views`,`is_public`,`article_password`,`article_top`,`top_time`,`top_losetime`,`is_commend`,`download_url`,`hold1`,`hold2`,`hold3`,`hold4` from blog_article where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.blog.domain.ArticleDO">
+		select `id`,`user_id`,`article_content`,`article_content_md`,`tags`,`category`,`article_newstime`,`article_status`,`article_summary`,`article_thumbnail`,`article_title`,`article_type`,`article_post`,`article_comment`,`article_updatetime`,`article_url`,`article_views`,`is_public`,`article_password`,`article_top`,`top_time`,`top_losetime`,`is_commend`,`download_url`,`hold1`,`hold2`,`hold3`,`hold4` from blog_article
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		   <if test="articleContent != null and articleContent != ''"> and (article_content  LIKE CONCAT('%',#{articleContent},'%') or article_title LIKE CONCAT('%',#{articleContent},'%'))</if>
+		  		  <if test="tags != null and tags != ''"> and tags = #{tags} </if>
+		  		  <if test="category != null and category != ''"> and category = #{category} </if>
+		  		  <if test="articleNewstime != null and articleNewstime != ''"> and article_newstime = #{articleNewstime} </if>
+		  		  <if test="articleStatus != null and articleStatus != ''"> and article_status = #{articleStatus} </if>
+		  		  <if test="articleSummary != null and articleSummary != ''"> and article_summary = #{articleSummary} </if>
+		  		  <if test="articleThumbnail != null and articleThumbnail != ''"> and article_thumbnail = #{articleThumbnail} </if>
+		  		  <if test="articleTitle != null and articleTitle != ''"> and article_title = #{articleTitle} </if>
+		  		  <if test="articleType != null and articleType != ''"> and article_type = #{articleType} </if>
+		  		  <if test="articlePost != null and articlePost != ''"> and article_post = #{articlePost} </if>
+		  		  <if test="articleComment != null and articleComment != ''"> and article_comment = #{articleComment} </if>
+		  		  <if test="articleUpdatetime != null and articleUpdatetime != ''"> and article_updatetime = #{articleUpdatetime} </if>
+		  		  <if test="articleUrl != null and articleUrl != ''"> and article_url = #{articleUrl} </if>
+		  		  <if test="articleViews != null and articleViews != ''"> and article_views = #{articleViews} </if>
+		  		  <if test="isPublic != null and isPublic != ''"> and is_public = #{isPublic} </if>
+		  		  <if test="articlePassword != null and articlePassword != ''"> and article_password = #{articlePassword} </if>
+		  		  <if test="articleTop != null and articleTop != ''"> and article_top = #{articleTop} </if>
+		  		  <if test="topTime != null and topTime != ''"> and top_time = #{topTime} </if>
+		  		  <if test="topLosetime != null and topLosetime != ''"> and top_losetime = #{topLosetime} </if>
+		  		  <if test="isCommend != null and isCommend != ''"> and is_commend = #{isCommend} </if>
+		  		  <if test="downloadUrl != null and downloadUrl != ''"> and download_url = #{downloadUrl} </if>
+		  		  <if test="hold1 != null and hold1 != ''"> and hold1 = #{hold1} </if>
+		  		  <if test="hold2 != null and hold2 != ''"> and hold2 = #{hold2} </if>
+		  		  <if test="hold3 != null and hold3 != ''"> and hold3 = #{hold3} </if>
+		  		  <if test="hold4 != null and hold4 != ''"> and hold4 = #{hold4} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from blog_article
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		   <if test="articleContent != null and articleContent != ''"> and article_content  LIKE CONCAT('%',#{articleContent},'%') or article_title LIKE CONCAT('%',#{articleContent},'%')</if>
+		  		  <if test="tags != null and tags != ''"> and tags = #{tags} </if>
+		  		  <if test="category != null and category != ''"> and category = #{category} </if>
+		  		  <if test="articleNewstime != null and articleNewstime != ''"> and article_newstime = #{articleNewstime} </if>
+		  		  <if test="articleStatus != null and articleStatus != ''"> and article_status = #{articleStatus} </if>
+		  		  <if test="articleSummary != null and articleSummary != ''"> and article_summary = #{articleSummary} </if>
+		  		  <if test="articleThumbnail != null and articleThumbnail != ''"> and article_thumbnail = #{articleThumbnail} </if>
+		  		  <if test="articleTitle != null and articleTitle != ''"> and article_title = #{articleTitle} </if>
+		  		  <if test="articleType != null and articleType != ''"> and article_type = #{articleType} </if>
+		  		  <if test="articlePost != null and articlePost != ''"> and article_post = #{articlePost} </if>
+		  		  <if test="articleComment != null and articleComment != ''"> and article_comment = #{articleComment} </if>
+		  		  <if test="articleUpdatetime != null and articleUpdatetime != ''"> and article_updatetime = #{articleUpdatetime} </if>
+		  		  <if test="articleUrl != null and articleUrl != ''"> and article_url = #{articleUrl} </if>
+		  		  <if test="articleViews != null and articleViews != ''"> and article_views = #{articleViews} </if>
+		  		  <if test="isPublic != null and isPublic != ''"> and is_public = #{isPublic} </if>
+		  		  <if test="articlePassword != null and articlePassword != ''"> and article_password = #{articlePassword} </if>
+		  		  <if test="articleTop != null and articleTop != ''"> and article_top = #{articleTop} </if>
+		  		  <if test="topTime != null and topTime != ''"> and top_time = #{topTime} </if>
+		  		  <if test="topLosetime != null and topLosetime != ''"> and top_losetime = #{topLosetime} </if>
+		  		  <if test="isCommend != null and isCommend != ''"> and is_commend = #{isCommend} </if>
+		  		  <if test="downloadUrl != null and downloadUrl != ''"> and download_url = #{downloadUrl} </if>
+		  		  <if test="hold1 != null and hold1 != ''"> and hold1 = #{hold1} </if>
+		  		  <if test="hold2 != null and hold2 != ''"> and hold2 = #{hold2} </if>
+		  		  <if test="hold3 != null and hold3 != ''"> and hold3 = #{hold3} </if>
+		  		  <if test="hold4 != null and hold4 != ''"> and hold4 = #{hold4} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.blog.domain.ArticleDO" useGeneratedKeys="true" keyProperty="id">
+		insert into blog_article
+		(
+			`user_id`, 
+			`article_content`, 
+			`article_content_md`, 
+			`tags`, 
+			`category`, 
+			`article_newstime`, 
+			`article_status`, 
+			`article_summary`, 
+			`article_thumbnail`, 
+			`article_title`, 
+			`article_type`, 
+			`article_post`, 
+			`article_comment`, 
+			`article_updatetime`, 
+			`article_url`, 
+			`article_views`, 
+			`is_public`, 
+			`article_password`, 
+			`article_top`, 
+			`top_time`, 
+			`top_losetime`, 
+			`is_commend`, 
+			`download_url`, 
+			`hold1`, 
+			`hold2`, 
+			`hold3`, 
+			`hold4`
+		)
+		values
+		(
+			#{userId}, 
+			#{articleContent}, 
+			#{articleContentMd}, 
+			#{tags}, 
+			#{category}, 
+			#{articleNewstime}, 
+			#{articleStatus}, 
+			#{articleSummary}, 
+			#{articleThumbnail}, 
+			#{articleTitle}, 
+			#{articleType}, 
+			#{articlePost}, 
+			#{articleComment}, 
+			#{articleUpdatetime}, 
+			#{articleUrl}, 
+			#{articleViews}, 
+			#{isPublic}, 
+			#{articlePassword}, 
+			#{articleTop}, 
+			#{topTime}, 
+			#{topLosetime}, 
+			#{isCommend}, 
+			#{downloadUrl}, 
+			#{hold1}, 
+			#{hold2}, 
+			#{hold3}, 
+			#{hold4}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.blog.domain.ArticleDO">
+		update blog_article 
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="articleContent != null">`article_content` = #{articleContent}, </if>
+			<if test="articleContentMd != null">`article_content_md` = #{articleContentMd}, </if>
+			<if test="tags != null">`tags` = #{tags}, </if>
+			<if test="category != null">`category` = #{category}, </if>
+			<if test="articleNewstime != null">`article_newstime` = #{articleNewstime}, </if>
+			<if test="articleStatus != null">`article_status` = #{articleStatus}, </if>
+			<if test="articleSummary != null">`article_summary` = #{articleSummary}, </if>
+			<if test="articleThumbnail != null">`article_thumbnail` = #{articleThumbnail}, </if>
+			<if test="articleTitle != null">`article_title` = #{articleTitle}, </if>
+			<if test="articleType != null">`article_type` = #{articleType}, </if>
+			<if test="articlePost != null">`article_post` = #{articlePost}, </if>
+			<if test="articleComment != null">`article_comment` = #{articleComment}, </if>
+			<if test="articleUpdatetime != null">`article_updatetime` = #{articleUpdatetime}, </if>
+			<if test="articleUrl != null">`article_url` = #{articleUrl}, </if>
+			<if test="articleViews != null">`article_views` = #{articleViews}, </if>
+			<if test="isPublic != null">`is_public` = #{isPublic}, </if>
+			<if test="articlePassword != null">`article_password` = #{articlePassword}, </if>
+			<if test="articleTop != null">`article_top` = #{articleTop}, </if>
+			<if test="topTime != null">`top_time` = #{topTime}, </if>
+			<if test="topLosetime != null">`top_losetime` = #{topLosetime}, </if>
+			<if test="isCommend != null">`is_commend` = #{isCommend}, </if>
+			<if test="downloadUrl != null">`download_url` = #{downloadUrl}, </if>
+			<if test="hold1 != null">`hold1` = #{hold1}, </if>
+			<if test="hold2 != null">`hold2` = #{hold2}, </if>
+			<if test="hold3 != null">`hold3` = #{hold3}, </if>
+			<if test="hold4 != null">`hold4` = #{hold4}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from blog_article where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from blog_article where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

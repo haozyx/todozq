@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="themes/pinghsu/postheader::header(${article.articleTitle},${options['keywords']})"></div>
+<body style="background-color: #f7f7f7!important;" >
+	<div class="main-content index-page clearfix">
+
+		<div class="main page-page" role="main"
+			style="background-color: #fff;">
+
+
+			<div class="post-header">
+				<input type="hidden" id="articleId" th:value="${article.id}" />
+				<h1 class="post-title" itemprop="name headline">
+					<a th:href="@{'/zy/post/'+${article.articleUrl}}"
+						th:text="${article.articleTitle}" data-no-instant=""></a>
+				</h1>
+				<div class="post-data">
+					<time itemprop="datePublished"
+						th:text="'发布于 '+ ${#dates.format(article.articleNewstime,'yyyy/MM/dd HH:mm:ss')}"></time>
+					/
+					<th:block th:text="${categories['__${article.category}__'] }" />
+					/
+					<th:block th:text="${article.articleViews == null ? 0 : article.articleViews}+'浏览'"></th:block>
+ 
+				</div>
+			</div>
+			<div id="post-content" class="post-content" itemprop="articleBody">
+				<p class="post-tags" th:utext="${commons.show_tags(article.tags)}"></p>
+				<th:block th:utext="${article.articleContent}" />
+				<!-- 如果文章加密 显示输入密码的框 -->
+ 
+
+				<div class="ah_box" th:if="${access} eq 'no'"
+					style="background: none repeat scroll 0 0 #FFFFF3; border: 1px dashed #EB5055; color: #123456; padding: 10px; border-radius: 9px; margin: 18px 0px; overflow: hidden; clear: both;">
+					<img class="wxpic" align="right"
+						src="https://whbimg.zlhq123.cn/%E5%85%AC%E4%BC%97%E5%8F%B7/haobangshouerweima.jpg"
+						style="width: 140px; height: 140px; margin-left: 20px; display: inline; border: none"
+						width="150" height="150"><span style="color: #f0503c"><i
+						class="fa fa-exclamation-circle"></i> 私密分享，下载地址已被隐藏，请输入暗号后免费查看 </span>
+					<div  style="margin: 10px 0;">
+						<span class="yzts" style="font-size: 18px; float: left;"><b>暗号：</b></span>
+						<div class="form-inline" style="display: flex; width: 50%;">
+							<input id="articlepass" type="text" name="pass"  value="" class="anhao"
+								style="width: 50%; color: #00a0f0; padding: 5px; background-color: #fff; border: 1px solid #EB5055; border-radius: 5px; font-size: 12px; margin: 0px 5px;">
+							<input id="asubmit"
+								style="background: #ff9800; border: none; padding: 5px; width: 80px; color: #fff; border-radius: 5px; font-weight: bold;"
+								name="" type="submit" value="提交">
+						</div>
+					</div>
+
+					<div style="clear: left;"></div>
+					<span style="font-size: 13px;">关注本站微信公众号，回复“<span
+						style="color: #f0503c" th:text="${article.hold1}">暗号</span>”获取暗号。<br>微信搜索“<span
+						style="color: #f0503c">haozyxz</span>”或者微信扫描二维码快速关注本站公众号。
+					</span>
+					<div class="cl"></div>
+				</div>
+
+
+
+				<th:block th:utext="${mimaHtml}"> </th:block>
+				<p style="font-size: 14px; word-wrap: break-word; word-break: break-word; margin: 20px 0;">
+					本站所有资源均收集于互联网或网友推荐，仅供学习和交流使用，请于下载后24小时内删除，切勿用于非法途径。如有侵权，请联系站长并出示版权证明以便删除。敬请谅解。
+				</p>
+			</div>
+
+		</div>
+<!-- 页面右侧公共部分 -->
+<div th:replace="themes/pinghsu/module/aside :: main_aside"></div>
+</div>
+
+<div th:replace="themes/pinghsu/module/share :: share"></div>
+
+	<script type="text/javascript">
+	 $(".hot-post").each(function(){
+		 $(this).children("li:last-child").css("padding-bottom","0px").css("border-bottom-width","0px");
+	 });
+	</script>
+	<script type="text/javascript">
+	$(function(){
+		$("#asubmit").on('click',function(){
+			if($('#articlepass').val()){
+				
+			  $.ajax({
+					type : "POST",
+					url : "/zy/validatePass",
+					data :{'pass':$('#articlepass').val(),'articleId' : $("#articleId").val() },// 你的formid
+					async : false,
+					error : function(request) {
+						layer.alert("Connection error");
+					},
+					success : function(data) {
+						
+					  if (data.code == 0) {
+						  //注意微信的刷新不能用reload()
+						  window.location.href = location.href+'?time='+((new Date()).getTime());
+							//location.reload();
+						} else {
+							layer.alert(data.msg)
+						}  
+
+					}
+				});  
+				
+			}else{
+				layer.alert("老铁，请对暗号。");
+			}
+		});
+	});
+
+</script>
+ <div th:replace="themes/pinghsu/module/comment :: comm_comment"></div> 
+ 
+</body>
+ <div th:replace="themes/pinghsu/footer::footer"></div> 
+</html>

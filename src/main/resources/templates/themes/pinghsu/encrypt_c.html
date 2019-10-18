@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="themes/pinghsu/header::header('好帮手资源分享网','资源分享，老司机，破解版，精品资源，安卓破解，老司机软件，手机软件，免费分享，精品教程，网站源码，福利APP')"></div>
+<body style="background-color: #f7f7f7!important;" >
+<div class="main-content common-page clearfix">
+		<div class="common-item">
+			<div class="common-title">当前分类加密 ，请输入密码访问。 ☻</div>
+			<div class="post-lists">
+				<div class="post-lists-body">
+					<form  class="comment-form" role="form" >
+						<input type="text" name="author" maxlength="12" id="author" class="form-control input-control clearfix" placeholder="停车" value=""  readonly="readonly"> 
+						<input type="email" name="mail" id="mail" class="form-control input-control clearfix" placeholder="坐爱" value="" required="" readonly="readonly"> 
+						<input type="url" name="url" id="url" class="form-control input-control clearfix" placeholder="枫林晚" value="" readonly="readonly">
+						<input type="hidden" id="cid" th:value="${acid}"/>
+						<textarea name="text" id="textarea" class="form-control" placeholder="请输入访问密码...... " required=""></textarea>
+						<button type="button" class="submit" id="misubmit" onclick="validpass()">提交</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+	
+	 function validpass(){
+		 var pass = $("#textarea").val();
+		 var cid = $("#cid").val();
+		 $.ajax({
+				cache : true,
+				type : "POST",
+				url : "/zy/validcpass",
+				data :{pass:pass,categoryId:cid}, 
+				error : function(request) {
+					layer.alert("Connection error");
+				},
+				success : function(data) {
+					if (data.code == 0) {
+						location.reload();
+					} else {
+						layer.alert(data.msg)
+					}
+
+				}
+			});
+	 }
+	</script>
+	
+	 <div th:replace="themes/pinghsu/footer::footer"></div> 
+</body>
+</html>

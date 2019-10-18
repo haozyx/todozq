@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.adminm.dao.SvnDao">
+
+	<select id="get" resultType="com.bootdo.adminm.domain.SvnDO">
+		select `svnid`,`svn_module`,`svn_name`,`svn_url`,`svn_version` from admin_svn where svnid = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.adminm.domain.SvnDO">
+		select `svnid`,`svn_module`,`svn_name`,`svn_url`,`svn_version` from admin_svn
+        <where>  
+		  		  <if test="svnid != null and svnid != ''"> and svnid = #{svnid} </if>
+		  		  <if test="svnModule != null and svnModule != ''"> and svn_module = #{svnModule} </if>
+		  		  <if test="svnName != null and svnName != ''"> and svn_name  LIKE CONCAT('%',#{svnName},'%')</if>
+		  		  <if test="svnUrl != null and svnUrl != ''"> and svn_url = #{svnUrl} </if>
+		  		  <if test="svnVersion != null and svnVersion != ''"> and svn_version = #{svnVersion} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by svnid desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from admin_svn
+		 <where>  
+		  		  <if test="svnid != null and svnid != ''"> and svnid = #{svnid} </if>
+		  		  <if test="svnModule != null and svnModule != ''"> and svn_module = #{svnModule} </if>
+		  		  <if test="svnName != null and svnName != ''"> and svn_name = #{svnName} </if>
+		  		  <if test="svnUrl != null and svnUrl != ''"> and svn_url = #{svnUrl} </if>
+		  		  <if test="svnVersion != null and svnVersion != ''"> and svn_version = #{svnVersion} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.adminm.domain.SvnDO" useGeneratedKeys="true" keyProperty="svnid">
+		insert into admin_svn
+		(
+			`svn_module`, 
+			`svn_name`, 
+			`svn_url`, 
+			`svn_version`
+		)
+		values
+		(
+			#{svnModule}, 
+			#{svnName}, 
+			#{svnUrl}, 
+			#{svnVersion}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.adminm.domain.SvnDO">
+		update admin_svn 
+		<set>
+			<if test="svnModule != null">`svn_module` = #{svnModule}, </if>
+			<if test="svnName != null">`svn_name` = #{svnName}, </if>
+			<if test="svnUrl != null">`svn_url` = #{svnUrl}, </if>
+			<if test="svnVersion != null">`svn_version` = #{svnVersion}</if>
+		</set>
+		where svnid = #{svnid}
+	</update>
+	
+	<delete id="remove">
+		delete from admin_svn where svnid = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from admin_svn where svnid in 
+		<foreach item="svnid" collection="array" open="(" separator="," close=")">
+			#{svnid}
+		</foreach>
+	</delete>
+
+</mapper>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<th:block   th:fragment="share">
+  	<div id="post-bottom-bar"
+		class="post-bottom-bar animated headroom--not-top headroom--not-bottom pinned">
+		<div class="bottom-bar-inner">
+		<!-- <div class="social-share"></div> -->
+			<div class="bottom-bar-items social-share left" data-disabled="google,twitter,facebook,linkedin" data-description="好帮手资源分享网，专业的资源分享网。">
+				<span class="bottom-bar-item">Share : </span> 
+		 </div>
+			<div class="bottom-bar-items right">
+				<span class="bottom-bar-item" th:if="${prea} != null"> <a  th:href="@{'/zy/post/'+${prea.articleUrl}}" th:title="${prea.articleTitle}">←</a></span> 
+				<span class="bottom-bar-item" th:if="${backa} != null"> <a th:href="@{'/zy/post/'+${backa.articleUrl}}" th:title="${backa.articleTitle}">→</a></span> 
+				<span class="bottom-bar-item"> <a href="#footer">↓</a></span> 
+				<span class="bottom-bar-item"> <a href="#">↑</a></span>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

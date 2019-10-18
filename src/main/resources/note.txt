@@ -1,0 +1,7 @@
+更新指定的字段中的指定字符
+UPDATE blog_article b
+SET b.article_content = REPLACE (
+	b.article_content,
+	'whbimg.zlhq123.cn',
+	'haozy.yohaoyun.com'
+)

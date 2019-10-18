@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="themes/pinghsu/header::header('友情链接','资源分享，老司机，破解版，精品资源，安卓破解，老司机软件，手机软件，免费分享，精品教程，网站源码，福利APP')"></div>
+<body>
+<article class="main-content page-page" style="margin-top: 120px;" >
+    <div id="post-content" class="post-content">
+        <h3>友情链接</h3>
+        <ul class="flinks">
+            <th:block th:each="link : ${links}">
+                <li>🔒 <a th:href="${link.linkUrl}" target="_blank" th:text="${link.linkName}"></a></li>
+            </th:block>
+        </ul>
+        <h3>链接须知</h3>
+        <blockquote style="padding: 0 10px 0 50px;">
+            <ul>
+               <li style="margin: 0;padding: 0;list-style: circle;"><p style="margin: 0;">请您在贵站做好本站友链</p> </li>
+               <li style="margin: 0;padding: 0;list-style: circle;"><p style="margin: 0;">请确定贵站可以稳定运营</p> </li>
+                <li style="margin: 0;padding: 0;list-style: circle;"><p style="margin: 0;">和本网站主题类似的小站、论坛等。</p></li> 
+                <li style="margin: 0;padding: 0;list-style: circle;"><p style="margin: 0;">确保申请友链的网站内容健康，不含政治、色情内容，且以原创为主。</p> </li>
+            </ul>
+        </blockquote>
+        <h3>基本信息</h3>
+        <pre><code class="lang-md hljs markdown">
+            网站名称：<span th:text="${options['blog_name']}"></span>
+            网站地址：<span th:text="'www.haozyx.com'"></span></code></pre>
+        <p>我的邮箱:<span th:text="${options['email_username']}"></span></p>
+        <p>随时欢迎互换友链 ^_^</p>
+        <p>好资源分享网，专业的有态度的资源分享网站。</p></div>
+</article>
+
+</body>
+<!-- <div th:replace="admin/module/macros :: comm_comment"></div>  -->
+<div th:replace="themes/pinghsu/footer::footer"></div>
+</html>

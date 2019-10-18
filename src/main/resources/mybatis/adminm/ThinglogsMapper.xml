@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.adminm.dao.ThinglogsDao">
+
+	<select id="get" resultType="com.bootdo.adminm.domain.ThinglogsDO">
+		select `id`,`name`,`position`,`record`,`recordtime` from admin_thinglogs where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.adminm.domain.ThinglogsDO">
+		select `id`,`name`,`position`,`record`,`recordtime` from admin_thinglogs
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="name != null and name != ''"> and name LIKE CONCAT('%',#{name},'%') </if>
+		  		  <if test="position != null and position != ''"> and position = #{position} </if>
+		  		  <if test="record != null and record != ''"> and record = #{record} </if>
+		  		  <if test="recordtime != null and recordtime != ''"> and recordtime = #{recordtime} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from admin_thinglogs
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		  <if test="position != null and position != ''"> and position = #{position} </if>
+		  		  <if test="record != null and record != ''"> and record = #{record} </if>
+		  		  <if test="recordtime != null and recordtime != ''"> and recordtime = #{recordtime} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.adminm.domain.ThinglogsDO" useGeneratedKeys="true" keyProperty="id">
+		insert into admin_thinglogs
+		(
+			`name`, 
+			`position`, 
+			`record`, 
+			`recordtime`
+		)
+		values
+		(
+			#{name}, 
+			#{position}, 
+			#{record}, 
+			#{recordtime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.adminm.domain.ThinglogsDO">
+		update admin_thinglogs 
+		<set>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="position != null">`position` = #{position}, </if>
+			<if test="record != null">`record` = #{record}, </if>
+			<if test="recordtime != null">`recordtime` = #{recordtime}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from admin_thinglogs where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from admin_thinglogs where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

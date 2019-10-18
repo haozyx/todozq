@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="themes/pinghsu/header::header('好帮手资源分享网','资源分享，老司机，破解版，精品资源，安卓破解，老司机软件，手机软件，免费分享，精品教程，网站源码，福利APP')"></div>
+<body>
+<article class="main-content page-page" style="margin-top: 120px;" itemscope="" itemtype="http://schema.org/Article">
+    <div class="post-header">
+    	<input type="hidden" id="articleId" th:value="${article.id}"/>
+        <h1 class="post-title" itemprop="name headline">
+            <a th:href="@{'/blog/post/'+${article.articleUrl}}" th:text="${article.articleTitle}" data-no-instant=""></a>
+        </h1>
+        <div class="post-data">
+            <time itemprop="datePublished" th:text="'发布于 '+ ${#dates.format(article.articleNewstime,'yyyy/MM/dd HH:mm:ss')}"></time>
+            / <th:block th:text="${categories['__${article.category}__'] }"/> / <th:block th:text="${article.articleViews == null ? 0 : article.articleViews}+'浏览'"></th:block>
+        
+        </div>
+    </div>
+    <div id="post-content" class="post-content" itemprop="articleBody">
+        <p class="post-tags" th:utext="${commons.show_tags(article.tags)}"></p>
+        <p> 这是一篇受密码保护的文章，您需要输入密码访问。</p>
+    
+    	<div style="border:1px solid #eb5055;border-radius: 30px;padding-left: 10px;width:200px;">
+     	  <input id="articlepass" type="text" name="pass" style="background-color: #fff;color:#000;width:150px; outline:none;" placeholder="请输入密码访问..." maxlength="8">
+        </div>
+          <p><a id="asubmit" style="color: #fff;  border: 1px solid #6fa3ef; border-radius: 15px; background: #6fa3ef;font-size: 13px;font-weight: 600; display: inline-block;  margin: 4px 8px 0 0;  padding: 0 15px;" href="javascript:;">提交</a></p>
+        
+         <p style="font-size: 14px;  word-wrap: break-word;  word-break: break-word;  margin: 20px 0;">
+            本站所有资源均收集于互联网或网友推荐，仅供学习和交流使用，请于下载后24小时内删除，切勿用于非法途径。如有侵权，请联系站长并出示版权证明以便删除。敬请谅解。
+        </p>
+    </div>
+</article>
+<script type="text/javascript">
+	$(function(){
+		$("#asubmit").on('click',function(){
+			if($('#articlepass').val()){
+				
+				$.ajax({
+					cache : true,
+					type : "POST",
+					url : "/zy/validatePass",
+					data :{pass:$('#articlepass').val(),articleId : $("#articleId").val() },// 你的formid
+					async : false,
+					error : function(request) {
+						layer.alert("Connection error");
+					},
+					success : function(data) {
+						if (data.code == 0) {
+							location.reload();
+						} else {
+							layer.alert(data.msg)
+						}
+
+					}
+				});
+				
+			}else{
+				layer.alert("请输入访问密码！");
+			}
+		});
+	});
+
+</script>
+
+ <div th:replace="themes/pinghsu/footer :: footer"></div> 
+</body>
+</html>

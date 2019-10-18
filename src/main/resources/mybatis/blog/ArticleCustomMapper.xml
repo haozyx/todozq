@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.blog.dao.ArticleCustomDao">
+
+	<select id="findTagsByName" resultType="com.bootdo.blog.domain.Tags">
+		select * from blog_tags t where t.name = #{name}
+	</select>
+ 
+	<select id="findAllTags" resultType="com.bootdo.blog.domain.Tags">
+		select * from blog_tags
+	</select>
+	 
+	<insert id="saveTags" parameterType="com.bootdo.blog.domain.Tags" useGeneratedKeys="true" keyProperty="id">
+		insert into blog_tags (`name`) values (#{name})
+	</insert>
+ 
+	<select id="findRepeatByUrl"  resultType="int">
+		SELECT COUNT(*) FROM blog_article WHERE article_url = #{articleUrl}
+	</select>
+	
+	<select id="findByArticleUrl" resultType="com.bootdo.blog.domain.ArticleDO">
+		select * from blog_article where article_url = #{articleUrl}
+	</select>
+	
+	<update id="updateArticleViews" parameterType="com.bootdo.blog.domain.ArticleDO">
+		update blog_article t set t.`article_views` = #{articleViews} where t.id = #{id}
+	</update>
+	
+	<select id="getCommendArticle" resultType="com.bootdo.blog.domain.ArticleDO">
+		select * from blog_article where article_status = 0 and is_commend =1 order by id desc limit 0,5
+	</select>
+	<select id="getTopArticles" resultType="com.bootdo.blog.domain.ArticleDO">
+		select * from blog_article where article_status = 0 and article_top =1 order by id desc  limit 0,5
+	</select>
+	<select id="getArticleByViews" resultType="com.bootdo.blog.domain.ArticleDO">
+		select b.* from blog_article b where b.article_status = 0  order by b.article_views desc limit 0,5 
+	</select>
+	
+	<select id="findByContent" resultType="com.bootdo.blog.domain.ArticleDO">
+		select   b.* from blog_article b where b.article_status = 0
+	 
+		<if test="articleContent != null and articleContent != ''"> and (article_content  LIKE CONCAT('%',#{articleContent},'%') or article_title LIKE CONCAT('%',#{articleContent},'%')) </if>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+	<select id="getByIds" resultType="com.bootdo.blog.domain.ArticleDO">
+		select * from blog_article where id  in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</select>
+	
+	<update id="pushBaidu">
+		update blog_article set article_post = 'ok'  where id  in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	
+	<select id="count" resultType="int">
+		select  count(b.id) from blog_article b  where b.article_status = 0
+		    <if test="articleContent != null and articleContent != ''"> and (article_content  LIKE CONCAT('%',#{articleContent},'%') or article_title LIKE CONCAT('%',#{articleContent},'%')) </if>
+		    <if test="tags != null and tags != ''"> and tags = #{tags} </if>
+		    <if test="category != null and category != ''"> and category = #{category} </if>
+		  		
+	</select>
+	
+	
+	
+	<select id="getPreArticle" resultType="com.bootdo.blog.domain.ArticleDO">
+		select * from blog_article   WHERE article_status = 0 and  id &lt;#{id} and category = #{category} and article_status = 0 ORDER BY id DESC LIMIT 1
+	</select>
+	
+	<select id="getBackArticle" resultType="com.bootdo.blog.domain.ArticleDO">
+		select * from blog_article   WHERE article_status = 0 and  id &gt;#{id} and category = #{category} and article_status = 0 ORDER BY id ASC LIMIT 1
+	</select>
+	
+	
+	
+</mapper>

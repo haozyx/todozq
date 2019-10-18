@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.adminm.dao.IndexmenuDao">
+
+	<select id="get" resultType="com.bootdo.adminm.domain.IndexmenuDO">
+		select `id`,`menu_name`,`menu_icon`,`menu_sort`,`menu_target`,`menu_url` from blog_indexmenu where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.adminm.domain.IndexmenuDO">
+		select `id`,`menu_name`,`menu_icon`,`menu_sort`,`menu_target`,`menu_url` from blog_indexmenu
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="menuName != null and menuName != ''"> and menu_name = #{menuName} </if>
+		  		  <if test="menuIcon != null and menuIcon != ''"> and menu_icon = #{menuIcon} </if>
+		  		  <if test="menuSort != null and menuSort != ''"> and menu_sort = #{menuSort} </if>
+		  		  <if test="menuTarget != null and menuTarget != ''"> and menu_target = #{menuTarget} </if>
+		  		  <if test="menuUrl != null and menuUrl != ''"> and menu_url = #{menuUrl} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from blog_indexmenu
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="menuName != null and menuName != ''"> and menu_name = #{menuName} </if>
+		  		  <if test="menuIcon != null and menuIcon != ''"> and menu_icon = #{menuIcon} </if>
+		  		  <if test="menuSort != null and menuSort != ''"> and menu_sort = #{menuSort} </if>
+		  		  <if test="menuTarget != null and menuTarget != ''"> and menu_target = #{menuTarget} </if>
+		  		  <if test="menuUrl != null and menuUrl != ''"> and menu_url = #{menuUrl} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.adminm.domain.IndexmenuDO" useGeneratedKeys="true" keyProperty="id">
+		insert into blog_indexmenu
+		(
+			`menu_name`, 
+			`menu_icon`, 
+			`menu_sort`, 
+			`menu_target`, 
+			`menu_url`
+		)
+		values
+		(
+			#{menuName}, 
+			#{menuIcon}, 
+			#{menuSort}, 
+			#{menuTarget}, 
+			#{menuUrl}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.adminm.domain.IndexmenuDO">
+		update blog_indexmenu 
+		<set>
+			<if test="menuName != null">`menu_name` = #{menuName}, </if>
+			<if test="menuIcon != null">`menu_icon` = #{menuIcon}, </if>
+			<if test="menuSort != null">`menu_sort` = #{menuSort}, </if>
+			<if test="menuTarget != null">`menu_target` = #{menuTarget}, </if>
+			<if test="menuUrl != null">`menu_url` = #{menuUrl}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from blog_indexmenu where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from blog_indexmenu where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

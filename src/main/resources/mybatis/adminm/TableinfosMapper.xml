@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.adminm.dao.TableinfosDao">
+
+	<select id="get" resultType="com.bootdo.adminm.domain.TableinfosDO">
+		select `id`,`tablemodule`,`tablename`,`zname`,`tableview`,`tablerelation`,`tablenote`,`columnnote` from adminm_tableinfos where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.adminm.domain.TableinfosDO">
+		select `id`,`tablemodule`,`tablename`,`zname`,`tableview`,`tablerelation`,`tablenote`,`columnnote` from adminm_tableinfos
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="tablemodule != null and tablemodule != ''"> and tablemodule = #{tablemodule} </if>
+		  		  <if test="tablename != null and tablename != ''"> and tablename = #{tablename} </if>
+		  		  <if test="zname != null and zname != ''"> and zname = #{zname} </if>
+		  		  <if test="tableview != null and tableview != ''"> and tableview = #{tableview} </if>
+		  		  <if test="tablerelation != null and tablerelation != ''"> and tablerelation = #{tablerelation} </if>
+		  		  <if test="tablenote != null and tablenote != ''"> and tablenote = #{tablenote} </if>
+		  		  <if test="columnnote != null and columnnote != ''"> and columnnote = #{columnnote} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from adminm_tableinfos
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="tablemodule != null and tablemodule != ''"> and tablemodule = #{tablemodule} </if>
+		  		  <if test="tablename != null and tablename != ''"> and tablename = #{tablename} </if>
+		  		  <if test="zname != null and zname != ''"> and zname = #{zname} </if>
+		  		  <if test="tableview != null and tableview != ''"> and tableview = #{tableview} </if>
+		  		  <if test="tablerelation != null and tablerelation != ''"> and tablerelation = #{tablerelation} </if>
+		  		  <if test="tablenote != null and tablenote != ''"> and tablenote = #{tablenote} </if>
+		  		  <if test="columnnote != null and columnnote != ''"> and columnnote = #{columnnote} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.adminm.domain.TableinfosDO">
+		insert into adminm_tableinfos
+		(
+			`id`, 
+			`tablemodule`, 
+			`tablename`, 
+			`zname`, 
+			`tableview`, 
+			`tablerelation`, 
+			`tablenote`, 
+			`columnnote`
+		)
+		values
+		(
+			#{id}, 
+			#{tablemodule}, 
+			#{tablename}, 
+			#{zname}, 
+			#{tableview}, 
+			#{tablerelation}, 
+			#{tablenote}, 
+			#{columnnote}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.adminm.domain.TableinfosDO">
+		update adminm_tableinfos 
+		<set>
+			<if test="tablemodule != null">`tablemodule` = #{tablemodule}, </if>
+			<if test="tablename != null">`tablename` = #{tablename}, </if>
+			<if test="zname != null">`zname` = #{zname}, </if>
+			<if test="tableview != null">`tableview` = #{tableview}, </if>
+			<if test="tablerelation != null">`tablerelation` = #{tablerelation}, </if>
+			<if test="tablenote != null">`tablenote` = #{tablenote}, </if>
+			<if test="columnnote != null">`columnnote` = #{columnnote}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from adminm_tableinfos where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from adminm_tableinfos where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

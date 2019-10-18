@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="themes/pinghsu/header::header('好帮手资源分享网','资源分享，老司机，破解版，精品资源，安卓破解，老司机软件，手机软件，免费分享，精品教程，网站源码，福利APP')"></div>
+<body style="background-color: #f7f7f7!important;" >
+	<div class="main-content index-page clearfix">
+		 
+	<div class="main" role="main">
+    <div class="rslides_container">
+      <ul class="rslides centered-btns centered-btns1" id="slider">
+        <li id="centered-btns1_s0" class="centered-btns1_on" style="display: block; float: left; position: relative; opacity: 1; z-index: 2; transition: opacity 500ms ease-in-out 0s;"><a href="" target="_blank" title=""><img th:src="@{/img/wangzhanhengfu.png}" alt="幻灯片"></a></li>
+      </ul>
+    </div>
+    <div class="clear"></div>
+    <div class="post istop cate1 auth1">
+    
+      <th:block th:each="article : ${tarticles}">
+    	  <h2>
+      		 <span>限时置顶</span> <a th:href="@{'/zy/post/'+${article.articleUrl}}"   th:title="${article.articleTitle}" th:text="${article.articleTitle}"></a>
+             <i class="fa fa-fire" style="color:red;" aria-hidden="true"></i>
+		  </h2>	
+       </th:block>
+      
+    </div>
+
+			<article class="post cate1 auth1" th:each="article : ${articles}">
+				<div class="thumb">
+					<a th:href="@{'/zy/post/'+${article.articleUrl}}" th:title="${article.articleTitle}" target="_blank"> 
+						<img th:alt="${article.articleTitle}" th:src="@{${article.articleThumbnail}}">
+					</a>
+				</div>
+				<span class="post-cat"><a th:href="@{'/zy/c/'+${article.category}}"
+					th:title="${article.articleTitle}"
+					th:text="${cmap['__${article.category}__']}" target="_blank">这是分类</a></span>
+				<h2>
+					<a th:href="@{'/zy/post/'+${article.articleUrl}}"
+						th:title="${article.articleTitle}"
+						th:text="${article.articleTitle}" target="_blank"></a>
+				</h2>
+				<div class="postmeta ydpostmeta">
+					<span><i class="fa fa-calendar"></i> 日期： <th:block th:text="${#dates.format(article.articleUpdatetime,'yyyy-MM-dd')}"/></span> 
+					<span><i class="fa fa-eye"></i> 阅读： <th:block th:text="${article.articleViews}"></th:block>次</span>
+				</div>
+
+				<div class="entry loop-entry">
+					<p th:text="${article.articleSummary}"></p>
+				</div>
+
+			</article>
+
+		</div>
+	
+  <!-- 页面右侧公共部分 -->
+<div th:replace="themes/pinghsu/module/aside :: main_aside"></div>
+	
+	
+	</div>
+ <div th:replace="themes/pinghsu/module/share :: share"></div>
+ 
+	<div class="lists-navigator clearfix">
+      <ol class="page-navigator" id="page_nav">
+      	 
+      </ol>
+</div>
+<script type="text/javascript">
+/*<![CDATA[*/
+var c_page =  "[[${page}]]"  ;
+var t_pages =  "[[${totalpages}]]"  ;
+var query = "[[${query}]]" ;
+
+/*]]>*/
+ var nav3 = new PageNavigator({
+	 linkHelper:  '/zy/search/{{page}}/'+query ,
+	 prevText: '←',
+	 nextText: '→',
+	 moreText: '……',
+     numberHelper: '<li><a href="{{link}}">{{page}}</a></li>',
+     currentHelper: '<li class="current"><a href="{{link}}">{{page}}</a></li>'
+  })
+ /**
+从后台获取总页数，并且在js中获取
+ **/
+ $('#page_nav').empty();
+ $('#page_nav').append(nav3.create(parseInt(c_page), parseInt(t_pages))); 
+ $(".hot-post").each(function(){
+	 $(this).children("li:last-child").css("padding-bottom","0px").css("border-bottom-width","0px");
+ });
+ 
+ </script>
+</body>
+ <div th:replace="themes/pinghsu/footer::footer"></div> 
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<th:block   th:fragment="main_aside">
+ 
+<aside class="sidebar">
+			<section class="widget" id="divSearchPanel">
+				<h3>
+					<i class="fa fa-bell-o"></i> 公告
+				</h3>
+				<div>
+					<!-- <form name="formsearch" action="/plus/search.php">
+          <input type="text" name="q" size="11">
+          <input type="submit" value="搜索">
+        </form> -->
+					<p>好帮手资源分享网，觉得本站对你有帮助，快快分享给朋友们吧。</p>
+				</div>
+			</section>
+			<section class="widget"></section>
+			<section class="widget" id="scroll">
+				<h3>
+					<i class="fa fa-list"></i> 热门推荐
+				</h3>
+				<ul class="hot-post">
+					<th:block th:each="article : ${carticles}">
+						<li>
+							<div class="thumb">
+								<a th:href="@{'/zy/post/'+${article.articleUrl}}"
+									th:title="${article.articleTitle}"><img
+									th:src="@{${article.articleThumbnail}}"
+									th:alt="${article.articleTitle}"></a>
+							</div>
+							<div class="hot-title">
+								<a th:href="@{'/zy/post/'+${article.articleUrl}}"
+									th:title="${article.articleTitle}"
+									th:text="${article.articleTitle}">这是标题</a>
+							</div>
+							<div class="hot-time">
+								<i class="fa fa-calendar"></i>
+								<th:block
+									th:text="${#dates.format(article.articleUpdatetime,'yyyy-MM-dd')}" />
+							</div>
+						</li>
+
+					</th:block>
+
+
+				</ul>
+			</section>
+			<section class="widget">
+				<h3>
+					<i class="fa fa-list"></i> 浏览排行
+				</h3>
+				<ul class="hot-post">
+					<th:block th:each="article : ${varticles}">
+						<li>
+							<div class="thumb">
+								<a th:href="@{'/zy/post/'+${article.articleUrl}}"
+									th:title="${article.articleTitle}"><img
+									th:src="@{${article.articleThumbnail}}"
+									th:alt="${article.articleTitle}"></a>
+							</div>
+							<div class="hot-title">
+								<a th:href="@{'/zy/post/'+${article.articleUrl}}"
+									th:title="${article.articleTitle}"
+									th:text="${article.articleTitle}">这是标题</a>
+							</div>
+							<div class="hot-time">
+								<i class="fa fa-calendar"></i>
+								<th:block
+									th:text="${#dates.format(article.articleUpdatetime,'yyyy-MM-dd')}" />
+							</div>
+						</li>
+
+					</th:block>
+
+				</ul>
+			</section>
+
+		</aside>
+ 
+</th:block>
+
+</body>
+</html>

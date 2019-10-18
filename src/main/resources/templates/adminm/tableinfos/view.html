@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+					<table class="table table-striped">
+						<tr>
+							<td width="20%">所属模块：</td>
+							<td id="tablemodule">平台</td>
+						</tr>
+						<tr>
+							<td>表名：</td>
+							<td th:text="${tableinfos.tablename}"></td>
+						</tr>
+						<tr>
+							<td>中文表名：</td>
+							<td th:text="${tableinfos.zname}"></td>
+						</tr>
+						<tr>
+							<td>对应视图：</td>
+							<td th:text="${tableinfos.tableview}"></td>
+						</tr>
+						<tr>
+							<td>关联关系：</td>
+							<td th:text="${tableinfos.tablerelation}"></td>
+						</tr>
+						<tr>
+							<td>表描述：</td>
+							<td th:text="${tableinfos.tablenote}"></td>
+						</tr>
+						<tr>
+							<td>备注：</td>
+							<td th:text="${tableinfos.columnnote}"></td>
+						</tr>
+					</table>
+					
+					<div class="row">   
+   						<button type="button" style="display:block;margin:0 auto" id="closeframe" class="btn btn-primary">关闭</button>                  
+					 </div>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+			<script type="text/javascript">
+			 /*<![CDATA[*/
+				var s_m =  "[[${tableinfos.tablemodule}]]"  ;
+			   /*]]>*/
+			</script>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/adminm/tableinfos/view.js">
+	</script>
+</body>
+</html>

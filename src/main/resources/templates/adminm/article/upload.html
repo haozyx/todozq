@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+
+<body class="gray-bg">
+
+	<div class="ibox-content gray-bg">
+		<form id="fileForm" class="form-horizontal" enctype="multipart/form-data">
+		 
+			<div class="row">
+
+				<div class="col-md-8">
+					<div class="tile">
+						<div class="form-group">
+
+							<div class="col-md-12">
+								<input class="form-control" name="file"
+									id="articleFile" type="file" placeholder="选择文件">
+
+							</div>
+						</div>
+						<div class="form-group">
+
+							<div class="col-md-12">
+								<input class="form-control"  name="imgurl"
+									id="imgurl" type="text" placeholder="上传完成之后返回图片的url">
+
+							</div>
+						</div>
+	  				<div class="form-group">
+							 <div class="col-md-12">
+							<button class="btn btn-sm btn-primary pull-right"
+								onclick="uploadfile()" type="button">上传</button>
+								</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</form>
+
+	</div>
+
+
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript">
+	     var prefix = cctx +'blog/article';
+		 function uploadfile(){
+			 var fd = new FormData();
+			 fd.append("name","zhangsna");
+			 fd.append("file",$('#articleFile')[0].files[0]);  //直接表单提JIAObug
+			 $.ajax({
+				 url:prefix+'/upload',
+				 type:'post',
+				 data: fd,// Form数据
+				 contentType: false,//使用form的enctype
+				 processData: false,
+				 success:function(data){
+					 if(data.code == 0){
+						 $("#imgurl").val(data.msg);
+					 }else{
+						 layer.alert(data.msg);
+					 }
+				 }
+			 });
+		 }
+	
+	</script>
+</body>
+</html>

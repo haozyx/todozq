@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<!-- 布局两个面板 -->
+
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">字典集</h3>
+					</div>
+					<div class="panel-body">
+						<div class="columns pull-left">
+							<button shiro:hasPermission="adminm:dic:add" type="button"
+								class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+							<button shiro:hasPermission="adminm:dic:batchRemove_no"
+								type="button" class="btn  btn-danger" onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+						</div>
+							<div class="columns pull-right col-md-4 nopadding">
+							<select data-placeholder="分类查询" class="form-control chosen-select"
+								tabindex="2" style="width: 100%">
+								<option value="">选择类别</option>
+							</select>
+						</div>
+						<ul class="nav nav-list">
+							<li class="divider"></li>
+						</ul>
+						<table id="dicTable" data-mobile-responsive="true">
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-8">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">数据集</h3>
+					</div>
+					<div class="panel-body">
+					
+					<div class="columns pull-left">
+							<button shiro:hasPermission="adminm:dicdataset:add" type="button"
+								class="btn  btn-primary" onclick="add_dicdata()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+							<input type="hidden" id="dic_id" value="">
+						</div>
+						<ul class="nav nav-list">
+							<li class="divider"></li>
+						</ul>
+						<table id="dicDataTable" data-mobile-responsive="true">
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+	<div>
+		<script type="text/javascript">
+			var s_edit_h = 'hidden';
+			var s_remove_h = 'hidden';
+			var s_resetPwd_h = 'hidden';
+		</script>
+	</div>
+	<div shiro:hasPermission="adminm:dic:edit">
+		<script type="text/javascript">
+			s_edit_h = '';
+		</script>
+	</div>
+	<div shiro:hasPermission="adminm:dic:remove">
+		<script type="text/javascript">
+			var s_remove_h = '';
+		</script>
+	</div>
+	<div shiro:hasPermission="adminm:dic:add">
+		<script type="text/javascript">
+			var s_add_h = '';
+		</script>
+	</div>
+
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" th:src="@{/js/appjs/adminm/dic/dic.js}"></script>
+</body>
+</html>

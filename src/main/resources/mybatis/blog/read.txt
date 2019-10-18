@@ -1,0 +1,9 @@
+  如果添加字段重新生成记得替换这里  list 与cout
+  <if test="articleContent != null and articleContent != ''"> and article_content  LIKE CONCAT('%',#{articleContent},'%') or article_title LIKE CONCAT('%',#{articleContent},'%')</if>
+  
+  
+  
+  
+  
+  
+  

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label">类型：</label>
+								<div class="col-sm-8">
+									<select id="type" name="type"
+										class="form-control chosen-select" tabindex="2"
+										style="width: 100%">
+										<option value="30">有效期：30</option>
+										<option value="90">有效期：90</option>
+										<option value="366">有效期：366</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">生成数量：</label>
+								<div class="col-sm-8">
+									<select id="quantity" name="quantity"
+										class="form-control chosen-select" tabindex="2"
+										style="width: 100%">
+										<option value="100">100个</option>
+										<option value="200">200个</option>
+										<option value="500">500个</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label">是否可用：</label>
+								<div class="col-sm-8">
+									<select id="status" name="status"
+										class="form-control chosen-select" tabindex="2"
+										style="width: 100%">
+										<option value="1" selected>是</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" onclick="save()" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" th:src="@{/js/appjs/adminm/activecode/add.js}">
+		
+	</script>
+</body>
+</html>
