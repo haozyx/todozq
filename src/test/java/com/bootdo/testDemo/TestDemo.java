@@ -1,5 +1,7 @@
 package com.bootdo.testDemo;
 
+import java.util.Date;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bootdo.common.utils.MD5Utils;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.crypto.SecureUtil;
 
 /*@RestController()
@@ -40,4 +43,12 @@ public class TestDemo {
     public void genMima() {
     	System.out.println((int)((Math.random()*9+1)*100000));
     }
+    
+    @Test
+    public void date() {
+    	Date date = DateUtil.parse("2019-10-19 18:28:29");
+    	long ms = DateUtil.betweenMs(new Date(),date);
+    	  System.out.println(ms);
+    }
+  
 }
