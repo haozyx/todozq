@@ -35,7 +35,7 @@ public class TestDemo {
     	System.out.println(md5);
     	System.out.println(md52);
     	String username ="abc";*/
-        String password = MD5Utils.encrypt("admin", "admin");
+        String password = MD5Utils.encrypt("appadmin", "admin123");
         System.out.println(password);
     	
     }

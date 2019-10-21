@@ -75,12 +75,21 @@ function initEditor(){
 			return;
 		}
 		
-		var at = $("#myTags").tagsValues();
+		if(!$("#articleTitle").val()){
+			layer.msg("请输入标题");
+			return;
+		}
+		
+		if(!$("#articleThumbnail").val()){
+			layer.msg("必须上传文章缩略图");
+			return;
+		}
+		/*var at = $("#myTags").tagsValues();
 		if(at.length >5 ){
 			layer.msg("最多输入5个标签");
 			return;
 		} 
-		$("#tags").val(at.join(","));
+		$("#tags").val(at.join(","));*/
 		
 		
 		if(myEditor.getData()!=""){
@@ -95,7 +104,7 @@ function initEditor(){
 					async: false,
 					dataType : "json",
 					success : function(data){
-						if(data.code==0){
+						if(data.code==200){
 					 
 							layer.open({
 								  content: '操作成功！',
@@ -131,3 +140,32 @@ function initEditor(){
 		  });*/
 
     }
+    
+  //上传图片
+    function openChoice(imgtype){
+    	$("#articleFrom").append('<input type="file" id="uploadimgfile" name="file" οnchange="uploadfile(\''+imgtype+'\')"  style="display: none;"/> '); 
+    	$("#uploadimgfile").click();
+    	$("#uploadimgfile").on('change',function(){
+    		uploadfile(imgtype);
+    	});
+    }
+
+    function uploadfile(imgtype){
+    	 var fd = new FormData();
+    	 fd.append("file",$('#uploadimgfile')[0].files[0]);  //直接表单提JIAObug
+    	 $.ajax({
+    		 url: prefix + '/upload',
+    		 type:'post',
+    		 data: fd,// Form数据
+    		 contentType: false,//使用form的enctype
+    		 processData: false,
+    		 success:function(data){
+    			 if(data.code == 200){
+    				 $("#"+imgtype).val(data.msg);
+    				 $("#uploadimgfile").remove();
+    			 }else{
+    				 layer.alert(data.msg);
+    			 }
+    		 }
+    	 });
+    }    

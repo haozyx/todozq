@@ -53,7 +53,7 @@ function load() {
 								},
 																{
 									field : 'code', 
-									title : '邀请码' 
+									title : '激活码' 
 								},
 																{
 									field : 'type', 

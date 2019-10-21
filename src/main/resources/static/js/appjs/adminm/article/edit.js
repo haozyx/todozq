@@ -59,7 +59,7 @@ function save(articleStatus){
 		layer.msg("请选择文章分类");
 		return;
 	}
-	var at = $("#myTags").tagsValues();
+/*	var at = $("#myTags").tagsValues();
 	if(at.length == 0){
 		layer.msg("请输入标签！");
 		return;
@@ -68,8 +68,21 @@ function save(articleStatus){
 		layer.msg("最多输入5个标签");
 		return;
 	} 
+		$("#tags").val(at.join(","));
+	*/
+	
+	
+	if(!$("#articleTitle").val()){
+		layer.msg("请输入标题");
+		return;
+	}
+	
+	if(!$("#articleThumbnail").val()){
+		layer.msg("必须上传文章缩略图");
+		return;
+	}
 //	alert(at.join(","));
-	$("#tags").val(at.join(","));
+
 	
 	if(myEditor.getData()!=""){
 		
@@ -83,7 +96,7 @@ function save(articleStatus){
 				async: false,
 				dataType : "json",
 				success : function(data){
-					if(data.code==0){
+					if(data.code==200){
 						
 						layer.open({
 							  content: '操作成功！',
@@ -106,18 +119,32 @@ function save(articleStatus){
    }
 	
 }
-function runSuggestions(element,query) {
-    /*
-    using ajax to populate suggestions
-     */
-    let sug_area=$('#myTags .autocomplete-items');
-/*    $.getJSON(prefix+"/listTags", function( data ) {
-    	 _tag_input_suggestions_data = data;
-	    $.each(data,function (key,value) {
-	      let template = $("<div>"+value.name+"</div>").hide();
-	      sug_area.append(template);
-	      template.show();
-	    })
-	  });*/
 
-}
+//上传图片
+  function openChoice(imgtype){
+  	$("#articleFrom").append('<input type="file" id="uploadimgfile" name="file" οnchange="uploadfile(\''+imgtype+'\')"  style="display: none;"/> '); 
+  	$("#uploadimgfile").click();
+  	$("#uploadimgfile").on('change',function(){
+  		uploadfile(imgtype);
+  	});
+  }
+
+  function uploadfile(imgtype){
+  	 var fd = new FormData();
+  	 fd.append("file",$('#uploadimgfile')[0].files[0]);  //直接表单提JIAObug
+  	 $.ajax({
+  		 url: prefix + '/upload',
+  		 type:'post',
+  		 data: fd,// Form数据
+  		 contentType: false,//使用form的enctype
+  		 processData: false,
+  		 success:function(data){
+  			 if(data.code == 200){
+  				 $("#"+imgtype).val(data.msg);
+  				 $("#uploadimgfile").remove();
+  			 }else{
+  				 layer.alert(data.msg);
+  			 }
+  		 }
+  	 });
+  }    

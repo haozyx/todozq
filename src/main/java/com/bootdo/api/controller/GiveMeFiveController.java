@@ -84,6 +84,27 @@ public class GiveMeFiveController {
 	}
 	
 	
+	
+	@GetMapping("getdetail")
+	public R getdetail(@RequestParam String id) {
+		
+		 
+		if(StrUtil.isBlankOrUndefined(id)) {
+			 return R.error("ID不能为空!");
+		}
+		
+		ArticleDO article = null;
+		
+		try {
+			article = articleService.get(Integer.valueOf(id));
+		}catch(Exception e) {
+			e.printStackTrace();
+			return R.error("获取详情异常");
+		}
+		
+		return R.ok().put("article", article);
+	}
+	
 	@PostMapping("saveuser")
 	public R registerUser(@RequestBody AppuserDO user) {
 		

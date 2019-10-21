@@ -58,7 +58,7 @@
 				 contentType: false,//使用form的enctype
 				 processData: false,
 				 success:function(data){
-					 if(data.code == 0){
+					 if(data.code == 200){
 						 $("#imgurl").val(data.msg);
 					 }else{
 						 layer.alert(data.msg);

@@ -31,11 +31,18 @@
 						</div> -->
 						<div class="form-group">
 							<div class="col-md-12">
-								<input class="form-control" name="articleThumbnail" id="articleThumbnail"
-									type="text" placeholder="文章缩略图"  th:value="${article.articleThumbnail}">
+								<div class="input-group">
+									<input class="form-control" type="text" placeholder="文章列表图"
+										readonly="readonly" name="articleThumbnail"  th:value="${article.articleThumbnail}"
+										id="articleThumbnail"> <span class="input-group-btn">
+
+										<button class="btn btn-default " type="button"
+											onclick="openChoice('articleThumbnail')">选择</button>
+									</span>
+								</div>
 							</div>
 						</div>
-						<div class="form-group">
+						<!-- <div class="form-group">
 							<div class="col-md-12">
 									<div class="tags-input" id="myTags">
 									<span class="data"> </span> 
@@ -45,7 +52,7 @@
 									</span>
 								</div>
 							</div>
-						</div>
+						</div> -->
 						<div class="form-group">
 							<div class="col-md-12">
 								<textarea name="content" th:text="${article.articleContent}" id="editor" rows="10"></textarea>
@@ -96,7 +103,13 @@
 							</select>
 							</div>
 						</div>
-						
+							<div class="form-group row">
+							<label class="control-label col-md-4">网盘地址:</label>
+							<div class="col-md-8">
+								 <input class="form-control" name="downloadUrl"
+									id="downloadUrl" th:value="${article.downloadUrl}" type="text" placeholder="下载地址" >
+							</div>
+						</div>
 						<div class="form-group row">
 							<label class="control-label col-md-4">访问密码:</label>
 							<div class="col-md-8">
@@ -112,20 +125,14 @@
 							</th:block>
 								 </div>
 						</div>
-							<div class="form-group row">
+					<!-- 		<div class="form-group row">
 							<label class="control-label col-md-4">需要回复:</label>
 							<div class="col-md-8">
 								 <input class="form-control" name="hold1" th:value="${article.hold1}"
 									id="hold1" type="text" placeholder="回复关键字" >
 							</div>
-						</div>
-					<div class="form-group row">
-							<label class="control-label col-md-4">下载地址:</label>
-							<div class="col-md-8">
-								 <input class="form-control" name="downloadUrl"
-									id="downloadUrl" th:value="${article.downloadUrl}" type="text" placeholder="下载地址" >
-							</div>
-						</div>
+						</div> -->
+				
 						<div class="form-group row">
 							<label class="control-label col-md-4">文章摘要:</label>
 							<div class="col-md-8">

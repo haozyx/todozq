@@ -177,6 +177,7 @@ public class ArticleController extends BaseController{
 			article.setArticleUpdatetime(DateUtil.date());
 			article.setArticleViews(0l);
 			article.setArticleTop(0);
+			article.setIsPublic(1);
 			// 如果自定义链接为空则按时间戳生成链接
 			if (StrUtil.isEmpty(article.getArticleUrl())) {
 				article.setArticleUrl(String.valueOf(System.currentTimeMillis() / 1000));
@@ -200,6 +201,12 @@ public class ArticleController extends BaseController{
 					article.setArticleSummary(summaryText);
 				}
 			}
+			
+			//APP专用将文章中的一些不支持的字符替换掉
+			String ahtml = article.getArticleContent();
+			ahtml = ahtml.replaceAll("<figure class=\"image\">", "<div class=\"appimg\">").replaceAll("</figure>", "</div>");
+			article.setArticleContent(ahtml);
+			
 			articleService.save(article);
 			saveTags(article.getTags());
 		
@@ -248,7 +255,13 @@ public class ArticleController extends BaseController{
 			}
 			// 文章最后修改时间
 			article.setArticleUpdatetime(DateUtil.date());
-			article.setArticleNewstime(DateUtil.date());
+			//article.setArticleNewstime(DateUtil.date());
+			
+			//APP专用将文章中的一些不支持的字符替换掉
+			String ahtml = article.getArticleContent();
+			ahtml = ahtml.replaceAll("<figure class=\"image\">", "<div class=\"appimg\">").replaceAll("</figure>", "</div>");
+			article.setArticleContent(ahtml);
+			
 			articleService.update(article);
 			 
 			saveTags(article.getTags());
