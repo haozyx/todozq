@@ -42,7 +42,7 @@ import cn.hutool.extra.servlet.ServletUtil;
 /**
  * @author wanghby@163.com
  */
-@RequestMapping("/zytest")
+@RequestMapping("/zy")
 @Controller
 public class IndexzyController extends BaseController{
 	@Autowired

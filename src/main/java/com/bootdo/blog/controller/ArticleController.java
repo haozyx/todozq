@@ -204,7 +204,8 @@ public class ArticleController extends BaseController{
 			
 			//APP专用将文章中的一些不支持的字符替换掉
 			String ahtml = article.getArticleContent();
-			ahtml = ahtml.replaceAll("<figure class=\"image\">", "<div class=\"appimg\">").replaceAll("</figure>", "</div>");
+			ahtml = ahtml.replaceAll("<figure class=\"image\">", "<div style='display: flex;flex-direction: row;justify-content: center;'>").replaceAll("</figure>", "</div>");
+			ahtml = ahtml.replaceAll("<img", "<img width='95%' ");
 			article.setArticleContent(ahtml);
 			
 			articleService.save(article);
@@ -259,7 +260,8 @@ public class ArticleController extends BaseController{
 			
 			//APP专用将文章中的一些不支持的字符替换掉
 			String ahtml = article.getArticleContent();
-			ahtml = ahtml.replaceAll("<figure class=\"image\">", "<div class=\"appimg\">").replaceAll("</figure>", "</div>");
+			ahtml = ahtml.replaceAll("<figure class=\"image\">", "<div style='display: flex;flex-direction: row;justify-content: center;'>").replaceAll("</figure>", "</div>");
+			ahtml = ahtml.replaceAll("<img", "<img width='95%' ");
 			article.setArticleContent(ahtml);
 			
 			articleService.update(article);

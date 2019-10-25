@@ -50,5 +50,12 @@ public class TestDemo {
     	long ms = DateUtil.betweenMs(new Date(),date);
     	  System.out.println(ms);
     }
+    
+    @Test
+    public void test1() {
+    	String html = "<div class=\"appimg\"><img src=\"http://img.zlhq123.cn/haozyx/ckupload/20191021/image20191021130243560.png\"></div>";
+    
+    	System.out.println(html.replaceAll("img", "img width='95%'"));
+    }
   
 }
