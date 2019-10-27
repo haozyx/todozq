@@ -45,7 +45,7 @@ function initEditor(){
 				// 加载数据
 				for (var i = 0; i < data.length; i++) {
 					 
-					if(6== data[i].id) continue;
+					//if(6== data[i].id) continue;
 					html += '<option value="' + data[i].id + '">' + data[i].name + '</option>'
 				}
 				$("#category").append(html);
