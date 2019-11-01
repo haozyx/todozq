@@ -53,6 +53,36 @@ public class GiveMeFiveController {
 		return R.ok().put("code", "888888");
 	}
 	
+	
+	
+	@GetMapping("getrecommendlist")
+	public R getrecommendlist(@RequestParam int page,@RequestParam int pagesize) {
+		
+		Map<String, Object> params = new HashMap<String,Object>();
+		params.put("articleStatus", "0"); //0 发布 1草稿
+		params.put("isCommend", "1"); //推荐
+		 
+		int count = articleService.count(params);// 先计算总数  总数为0 不做操作
+		
+		if(count ==0) return R.ok().put("list","");
+		
+		//将当前页和总页数传递到前台
+		int totalpages = (count + pagesize -1) /pagesize;
+		//对不合理的分页数进行处理
+		page = page < 0  ? 1 :page;
+		page = page > totalpages ? totalpages : page;
+		pagesize = pagesize<0 ? 5 :pagesize;
+
+		params.put("offset", (page-1)*pagesize);
+		params.put("limit", pagesize);
+		Query query = new Query(params);
+	    List<ArticleDO> articleList = articleService.list(query);	
+		
+		
+		return R.ok().put("list", articleList).put("totalpage", totalpages);
+	}
+	
+	
 	@GetMapping("list")
 	public R getlist(@RequestParam int page,@RequestParam int pagesize,@RequestParam String category) {
 		
