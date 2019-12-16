@@ -97,7 +97,7 @@ function edit(){
 		title : '增加',
 		maxmin : true,
 		shadeClose : false, 
-		area : [ '800px', '520px' ],
+		area : [ '800px', '420px' ],
 		content : prefix + '/edit'
 	});
 }

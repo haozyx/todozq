@@ -3,6 +3,8 @@ package com.bootdo.adminm.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -16,17 +18,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bootdo.adminm.domain.SvnDO;
+import com.bootdo.adminm.service.AppCustomService;
 import com.bootdo.adminm.service.SvnService;
 import com.bootdo.common.utils.PageUtils;
 import com.bootdo.common.utils.Query;
 import com.bootdo.common.utils.R;
+import com.bootdo.common.utils.ShiroUtils;
+
+import cn.hutool.core.util.StrUtil;
 
 /**
  * 
  * 
- * @author chglee
- * @email 1992lcg@163.com
- * @date 2019-05-07 16:02:21
  */
  
 @Controller
@@ -34,6 +37,8 @@ import com.bootdo.common.utils.R;
 public class SvnController {
 	@Autowired
 	private SvnService svnService;
+	@Autowired
+	private AppCustomService appService;
 	
 	@GetMapping()
 	@RequiresPermissions("adminm:svn:svn")
@@ -46,7 +51,9 @@ public class SvnController {
 	@RequiresPermissions("adminm:svn:svn")
 	public PageUtils list(@RequestParam Map<String, Object> params){
 		//查询列表数据
-        Query query = new Query(params);
+		String userid = ShiroUtils.getUserId()+"";
+        params.put("userid", userid);	
+		Query query = new Query(params);
 		List<SvnDO> svnList = svnService.list(query);
 		int total = svnService.count(query);
 		PageUtils pageUtils = new PageUtils(svnList, total);
@@ -74,7 +81,12 @@ public class SvnController {
 	@PostMapping("/save")
 	@RequiresPermissions("adminm:svn:add")
 	public R save( SvnDO svn){
+		//设置用户的ID
+		String userid = ShiroUtils.getUserId()+"";
+		svn.setUserid(Integer.parseInt(userid));
+		
 		if(svnService.save(svn)>0){
+			
 			return R.ok();
 		}
 		return R.error();
@@ -112,6 +124,20 @@ public class SvnController {
 	public R remove(@RequestParam("ids[]") Integer[] svnids){
 		svnService.batchRemove(svnids);
 		return R.ok();
+	}
+	@GetMapping( "/getuserbydepid")
+	@ResponseBody
+	public R getuserbydepid(@RequestParam String depid) {
+		try {
+			if(StrUtil.isEmptyOrUndefined(depid)) return R.error("deptid为空");
+			String sql = "select user_id,name from sys_user where dept_id ="+depid;
+			List<Map<String, Object>> userlist = appService.selectList(sql);
+			
+			return R.ok().put("userlist", userlist);
+			
+		} catch (Exception e) {
+			return R.error("系统错误");
+		}
 	}
 	
 }

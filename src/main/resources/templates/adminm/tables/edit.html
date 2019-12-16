@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="mywrapper">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="id" name="id" th:value="${tables.id}"  type="hidden">
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">表分类：</label>
+								<div class="col-sm-8">
+								<select id="tablecategory" name="tablecategory" required="required"   class="form-control chosen-select"
+										tabindex="2" style="width: 100%"  >
+										<option value="">请选择：</option>
+								</select>
+								</div>
+							</div>
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">表名：</label>
+								<div class="col-sm-8">
+									<input id="entablename" name="entablename" th:value="${tables.entablename}" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">中文表名：</label>
+								<div class="col-sm-8">
+									<input id="zntablename" name="zntablename" th:value="${tables.zntablename}" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">表之间关联关系：</label>
+								<div class="col-sm-8">
+									<textarea id="tablerelations" name="tablerelations" th:text="${tables.tablerelations}" placeholder="填写本表可能与其他表之间的关联字段(如果你知道的话)" class="form-control" rows="3"></textarea>
+								</div>
+							</div>
+							
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">视图关联：</label>
+								<div class="col-sm-8">
+									<textarea id="vwrelations" name="vwrelations" th:text="${tables.vwrelations}" placeholder="填写本表可能涉及的已知视图(如果你知道的话)" class="form-control" rows="3"></textarea>
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">序列关联：</label>
+								<div class="col-sm-8">
+								  <textarea id="seqrelation" name="seqrelation" th:text="${tables.seqrelation}" placeholder="填写本表在保存数据的时候使用到哪些序列(如果你知道的话)" class="form-control" rows="3"></textarea>
+								</div>
+							</div>
+								<div class="form-group">	
+								<label class="col-sm-3 control-label">备注说明：</label>
+								<div class="col-sm-8">
+									<textarea id="note" name="note" th:text="${tables.note}" placeholder="其他注意事项请备注说明" class="form-control" rows="3"></textarea>
+								</div>
+							</div>
+						<div class="form-group" style="margin-bottom: -20px;">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" th:src="@{/js/appjs/adminm/tables/edit.js}">
+	</script>
+</body>
+</html>

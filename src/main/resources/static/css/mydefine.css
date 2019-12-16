@@ -25,6 +25,9 @@
 .pl-15{
 	padding-left:-15px;
 }
+.mb-f15{
+	margin-bottom: -15px;	
+}
 
 #myTags {
 	/* box-shadow: 0 0 5px rgba(81, 203, 238, 1); */
@@ -37,3 +40,27 @@
 .ck-content{
     min-height: 350px !important;
 }
+
+.mywrapper{
+	padding: 5px;
+}
+.nopadding{
+	padding: 0px;
+}
+.myformitem{
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 5px;
+}
+.myfromlabel{
+	padding: 9px;
+    width: 100px;
+    font-weight: bold;
+    line-height: 20px;
+    text-align: right;
+}
+.myinputblock{
+	margin-left: 10px;
+	width:80%;
+}
+

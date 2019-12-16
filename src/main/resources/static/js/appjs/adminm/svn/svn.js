@@ -4,9 +4,25 @@ var prefix =  cctx + "adminm/svn";
 var m_map =new Map(),v_map=new Map();
 
 $(function() {
-	loaddicdata();
-	load();
-	loadVersion()
+	
+	jqAjax({url :  cctx +"adminm/dic/getdicdata/",
+			type : "post",
+			data : {
+				'typecode' : 'VERSION'
+	}}).then(res=>{
+		$.each(res,function(i,v){
+			v_map.set(v.disCode,v.disName);
+		});
+		return loaddicdata();
+	}).then(res=>{
+		$.each(res,function(i,v){
+			m_map.set(v.disCode,v.disName);
+		});
+		//加载数据
+		load();
+	});
+	 
+	loadVersion();
 });
 
 function load() {
@@ -60,7 +76,6 @@ function load() {
 									field : 'svnVersion', 
 									title : '版本' ,
 									formatter : function(value, row, index) { 
-										 
 										return v_map.get(value);
 									}
 								},
@@ -101,31 +116,22 @@ function load() {
 }
 
 function loaddicdata(){
-	$.ajax({
-		url :  cctx +"adminm/dic/getdicdata/",
-		type : "post",
-		data : {
-			'typecode' : 'VERSION'
-		},
-		success : function(r) {
-			$.each(r,function(i,v){
-				v_map.set(v.disCode,v.disName);
-			});
-		}
-	});
-	
-	$.ajax({
-		url : cctx + "adminm/dic/getdicdata/",
-		type : "post",
-		data : {
-			'typecode' : 'MODULE'
-		},
-		success : function(r) {
-			$.each(r,function(i,v){
-				m_map.set(v.disCode,v.disName);
-			});
-		}
-	});
+    return new Promise(function(resolve, reject){
+        $.ajax({
+        	url :  cctx +"adminm/dic/getdicdata/",
+			type : "post",
+			data : {
+				'typecode' : 'MODULE'
+			},
+            dataType: "json",
+            success: function(data){
+                resolve(data);
+            },
+            error: function(error){
+                reject(error)
+            }
+        });
+    });
 }
 
 function reLoad() {
@@ -145,7 +151,7 @@ function add() {
 		title : '增加',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '430px' ],
+		area : [ '800px', '310px' ],
 		content : prefix + '/add' // iframe的url
 	});
 }
@@ -155,7 +161,7 @@ function edit(id) {
 		title : '编辑',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '430px' ],
+		area : [ '800px', '330px' ],
 		content : prefix + '/edit/' + id // iframe的url
 	});
 }
@@ -230,16 +236,6 @@ function loadVersion(){
 				html += '<option value="' + data[i].disCode + '">' + data[i].disName + '</option>'
 			}
 			$("#svnVersion").append(html);
-			$("#svnVersion").chosen({
-				maxHeight : 200,
-				search_contains: true, //启用模糊搜索
-				disable_search: true // 启用搜索狂
-			});
-		 
-			$("#svnVersion").trigger("chosen:updated");
-			$("#svnVersion").on('change', function(e, params) {
-				$(this).valid(); //这句话解决valid不校验select的问题
-			});
 		}
 	});
 }

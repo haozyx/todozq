@@ -1,6 +1,6 @@
 var prefix = cctx + "sys/user"
 $(function() {
-	var deptId = '';
+	var deptId = '0';
 	getTreeData();
 	load(deptId);
 });
@@ -96,9 +96,24 @@ function load(deptId) {
 					} ]
 			});
 }
+ 
+
 function reLoad() {
-	$('#exampleTable').bootstrapTable('refresh');
+	var opt={
+		query:{
+			deptId:$("#pId").val() 
+		 
+		}
+	};
+	$('#exampleTable').bootstrapTable('refresh',opt);
 }
+
+function reloadTree(){
+	$('#jstree').jstree("destroy");
+	getTreeData();
+}
+
+
 function add() {
 	// iframe层
 	layer.open({
@@ -198,14 +213,24 @@ function loadTree(tree) {
 			'data' : tree
 		},
 		"plugins" : [ "search" ]
-	});
-	$('#jstree').jstree().open_all();
+	}) .on('loaded.jstree',function(e,data){
+		var inst = data.instance;
+		//选中节点 并打开节点
+		let pid = $("#pId").val();
+		if(pid){
+			inst.select_node(pid);
+			inst.open_node(pid); 
+		}
+		
+	}) ;
+	//$('#jstree').jstree().open_all();
 }
 $('#jstree').on("changed.jstree", function(e, data) {
+	
 	if (data.selected == -1) {
 		var opt = {
 			query : {
-				deptId : '',
+				deptId : '0',
 			}
 		}
 		$('#exampleTable').bootstrapTable('refresh', opt);
@@ -215,6 +240,8 @@ $('#jstree').on("changed.jstree", function(e, data) {
 				deptId : data.selected[0],
 			}
 		}
+		$("#pId").val(data.selected[0]);
+		//alert($("#pId").val());
 		$('#exampleTable').bootstrapTable('refresh',opt);
 	}
 

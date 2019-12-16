@@ -8,9 +8,9 @@ import java.util.Date;
 /**
  * 
  * 
- * @author chglee
- * @email 1992lcg@163.com
- * @date 2019-05-07 16:02:21
+ * @author wanghby
+ * @email wanghby@yonyou.com
+ * @date 2019-12-04 14:46:07
  */
 public class SvnDO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -25,6 +25,8 @@ public class SvnDO implements Serializable {
 	private String svnUrl;
 	//
 	private String svnVersion;
+	//
+	private Integer userid;
 
 	/**
 	 * 设置：
@@ -85,5 +87,17 @@ public class SvnDO implements Serializable {
 	 */
 	public String getSvnVersion() {
 		return svnVersion;
+	}
+	/**
+	 * 设置：
+	 */
+	public void setUserid(Integer userid) {
+		this.userid = userid;
+	}
+	/**
+	 * 获取：
+	 */
+	public Integer getUserid() {
+		return userid;
 	}
 }

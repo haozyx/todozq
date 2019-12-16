@@ -1,5 +1,6 @@
 $().ready(function() {
 	validateRule();
+	
 	loadmodule(); //初始化下拉框的值
 	loadVersion();
 });
@@ -20,7 +21,7 @@ function save() {
 			parent.layer.alert("Connection error");
 		},
 		success : function(data) {
-			if (data.code == 0) {
+			if (data.code == 200) {
 				parent.layer.msg("操作成功");
 				parent.reLoad();
 				var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
@@ -84,17 +85,7 @@ function loadmodule(){
 				html += '<option value="' + data[i].disCode + '">' + data[i].disName + '</option>'
 			}
 			$("#svnVersion").append(html);
-			$("#svnVersion").chosen({
-				maxHeight : 200,
-				search_contains: true, //启用模糊搜索
-				disable_search: true // 启用搜索狂
-			});
-		 
-			$("#svnVersion").trigger("chosen:updated");
-			// 点击事件
-			$("#svnVersion").on('change', function(e, params) {
-				$(this).valid();
-			});
+			
 		}
 	});
 }
@@ -116,16 +107,51 @@ function loadVersion(){
 				html += '<option value="' + data[i].disCode + '">' + data[i].disName + '</option>'
 			}
 			$("#svnModule").append(html);
-			$("#svnModule").chosen({
-				maxHeight : 200,
-				search_contains: true, //启用模糊搜索
-				disable_search: true // 启用搜索狂
-			});
-		 
-			$("#svnModule").trigger("chosen:updated");
-			$("#svnModule").on('change', function(e, params) {
-				$(this).valid(); //这句话解决valid不校验select的问题
+			//必须重新渲染表单
+			layui.use('form',function(){
+				var form = layui.form;
+				form.render();
 			});
 		}
 	});
+}
+
+/**
+ * 初始化下拉框的值
+ * @returns
+ */
+function getdepusername(depid){
+	var html = "";
+	$.ajax({
+		url : cctx+ 'adminm/svn/getuserbydepid?depid='+depid,
+		type:'get' ,
+		success : function(data) {
+			var userlist = data.userlist;
+			// 加载数据
+			for (var i = 0; i < userlist.length; i++) {
+				html += '<option value="' + userlist[i].user_id + '">' + userlist[i].name + '</option>'
+			}
+			$("#depusername").append(html);
+			//必须重新渲染表单
+			layui.use('form',function(){
+				var form = layui.form;
+				form.render();
+			});
+		}
+	});
+}
+
+//打开部门的选择框
+var openDept = function(){
+	layer.open({
+		type:2,
+		title:"选择部门",
+		area : [ '300px', '250px' ],
+		content: cctx + "system/sysDept/treeView"
+	})
+}
+function loadDept( deptId,deptName){
+	$("#deptId").val(deptId);
+	$("#deptName").val(deptName);
+	getdepusername(deptId);
 }

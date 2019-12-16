@@ -86,20 +86,9 @@ function loadVersion(){
 				html += '<option value="' + data[i].disCode + '">' + data[i].disName + '</option>'
 			}
 			$("#svnVersion").append(html);
-			$("#svnVersion").chosen({
-				maxHeight : 200,
-				search_contains: true, //启用模糊搜索
-				disable_search: true // 启用搜索框
-			});
-		 
-			$("#svnVersion").trigger("chosen:updated");
-			// 点击事件
-			$("#svnVersion").on('change', function(e, params) {
-				$(this).valid();
-			});
 			//设置选中值 必须进行更新
 			$("#svnVersion").val(s_v); 
-			$("#svnVersion").trigger("chosen:updated"); 
+		 
 		}
 	});
 }
@@ -121,19 +110,10 @@ function loadmodule(){
 				html += '<option value="' + data[i].disCode + '">' + data[i].disName + '</option>'
 			}
 			$("#svnModule").append(html);
-			$("#svnModule").chosen({
-				maxHeight : 200,
-				search_contains: true, //启用模糊搜索
-				disable_search: true // 启用搜索狂
-			});
-		 
-			$("#svnModule").trigger("chosen:updated");
-			$("#svnModule").on('change', function(e, params) {
-				$(this).valid(); //这句话解决valid不校验select的问题
-			});
+		  
 			//设置选中值 必须进行更新
 			$("#svnModule").val(s_m); 
-			$("#svnModule").trigger("chosen:updated"); 
+			 
 		}
 	});
 }

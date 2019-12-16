@@ -30,9 +30,10 @@ function save() {
 			parent.layer.alert("Connection error");
 		},
 		success : function(data) {
-			if (data.code == 0) {
+			if (data.code == 200) {
 				parent.layer.msg("操作成功");
 				parent.reLoad();
+				parent.reloadTree();
 				var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
 				parent.layer.close(index);
 

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.adminm.dao.TablesDao">
+
+	<select id="get" resultType="com.bootdo.adminm.domain.TablesDO">
+		select `id`,`tablecategory`,`entablename`,`zntablename`,`tablerelations`,`vwrelations`,`seqrelation`,`note` from admin_tables where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.adminm.domain.TablesDO">
+		select `id`,`tablecategory`,`entablename`,`zntablename`,`tablerelations`,`vwrelations`,`seqrelation`,`note` from admin_tables
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="tablecategory != null and tablecategory != ''"> and tablecategory = #{tablecategory} </if>
+		  		  <if test="entablename != null and entablename != ''"> and entablename = #{entablename} </if>
+		  		  <if test="zntablename != null and zntablename != ''"> and zntablename = #{zntablename} </if>
+		  		  <if test="tablerelations != null and tablerelations != ''"> and tablerelations = #{tablerelations} </if>
+		  		  <if test="vwrelations != null and vwrelations != ''"> and vwrelations = #{vwrelations} </if>
+		  		  <if test="seqrelation != null and seqrelation != ''"> and seqrelation = #{seqrelation} </if>
+		  		  <if test="note != null and note != ''"> and note = #{note} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from admin_tables
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="tablecategory != null and tablecategory != ''"> and tablecategory = #{tablecategory} </if>
+		  		  <if test="entablename != null and entablename != ''"> and entablename = #{entablename} </if>
+		  		  <if test="zntablename != null and zntablename != ''"> and zntablename = #{zntablename} </if>
+		  		  <if test="tablerelations != null and tablerelations != ''"> and tablerelations = #{tablerelations} </if>
+		  		  <if test="vwrelations != null and vwrelations != ''"> and vwrelations = #{vwrelations} </if>
+		  		  <if test="seqrelation != null and seqrelation != ''"> and seqrelation = #{seqrelation} </if>
+		  		  <if test="note != null and note != ''"> and note = #{note} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.adminm.domain.TablesDO" useGeneratedKeys="true" keyProperty="id">
+		insert into admin_tables
+		(
+			`tablecategory`, 
+			`entablename`, 
+			`zntablename`, 
+			`tablerelations`, 
+			`vwrelations`, 
+			`seqrelation`, 
+			`note`
+		)
+		values
+		(
+			#{tablecategory}, 
+			#{entablename}, 
+			#{zntablename}, 
+			#{tablerelations}, 
+			#{vwrelations}, 
+			#{seqrelation}, 
+			#{note}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.adminm.domain.TablesDO">
+		update admin_tables 
+		<set>
+			<if test="tablecategory != null">`tablecategory` = #{tablecategory}, </if>
+			<if test="entablename != null">`entablename` = #{entablename}, </if>
+			<if test="zntablename != null">`zntablename` = #{zntablename}, </if>
+			<if test="tablerelations != null">`tablerelations` = #{tablerelations}, </if>
+			<if test="vwrelations != null">`vwrelations` = #{vwrelations}, </if>
+			<if test="seqrelation != null">`seqrelation` = #{seqrelation}, </if>
+			<if test="note != null">`note` = #{note}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from admin_tables where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from admin_tables where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

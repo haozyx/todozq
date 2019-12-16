@@ -32,7 +32,7 @@
 		select count(*) from admin_sqlmanager
 		 <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
-		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		  <if test="name != null and name != ''"> and name LIKE CONCAT('%',#{name},'%')  </if>
 		  		  <if test="sqlcontent != null and sqlcontent != ''"> and sqlcontent = #{sqlcontent} </if>
 		  		  <if test="sqldesp != null and sqldesp != ''"> and sqldesp = #{sqldesp} </if>
 		  		</where>

@@ -10,12 +10,12 @@ bootdo:
 logging:
   level:
     root: info
-    com.bootdo: info
+    com.bootdo: debug
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://114.67.73.95:3306/toduzq?useUnicode=true&characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://114.67.73.95:3306/bz_dep?useUnicode=true&characterEncoding=utf8&useSSL=false
     username: todu
     password: Zhangsan1.
     initialSize: 1

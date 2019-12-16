@@ -3,47 +3,49 @@
 <meta charset="utf-8">
 <head th:include="include :: header"></head>
 <body class="gray-bg">
-	<div class="wrapper wrapper-content ">
+	<div class="mywrapper">
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
-						<form class="form-horizontal m-t" id="signupForm">
-							<div class="form-group">	
-								<label class="col-sm-3 control-label">版本：</label>
-								<div class="col-sm-8">
-									<select id="svnVersion" name="svnVersion" data-placeholder="分类查询" class="form-control chosen-select"
-								tabindex="2" style="width: 100%" >
-								<option value="">请选择：</option>
-							</select>
+						<form class="layui-form" id="signupForm">
+
+							<div class="myformitem">
+								<label class="myfromlabel">版本：</label>
+								<div class="myinputblock">
+									<select id="svnVersion" name="svnVersion"
+										data-placeholder="选择版本" class="form-control chosen"
+										tabindex="2" style="width: 100%">
+										<option value="">请选择：</option>
+									</select>
 								</div>
 							</div>
-							
-							<div class="form-group">	
-								<label class="col-sm-3 control-label">模块：</label>
-								<div class="col-sm-8">
-									 
-								<select id="svnModule" name="svnModule"   class="form-control chosen-select"
-								tabindex="2" style="width: 100%"  >
-								<option value="">请选择：</option>
-							</select>
+						 
+							<div class="myformitem">
+								<label class="myfromlabel">模块：</label>
+								<div class="myinputblock">
+									<select id="svnModule" name="svnModule"  lay-search>
+										<option value="">请选择：</option>
+									</select>
 								</div>
 							</div>
-														<div class="form-group">	
-								<label class="col-sm-3 control-label">名称：</label>
-								<div class="col-sm-8">
+							 
+							 <div class="myformitem">
+								<label class="myfromlabel">名称：</label>
+								<div class="myinputblock">
 									<input id="svnName" name="svnName" class="form-control" type="text" required>
 								</div>
 							</div>
-														<div class="form-group">	
-								<label class="col-sm-3 control-label">svn地址：</label>
-								<div class="col-sm-8">
+						  <div class="myformitem">
+								<label class="myfromlabel">svn地址：</label>
+								<div class="myinputblock">
 									<input id="svnUrl" name="svnUrl" class="form-control" type="text" required>
 								</div>
 							</div>
 							
-																					<div class="form-group">
-								<div class="col-sm-8 col-sm-offset-3">
+							<div class="myformitem">
+							<label class="myfromlabel"><!-- 这里只是一个占位的作用  --></label>
+								<div class="myinputblock">
 									<button type="submit" class="btn btn-primary">提交</button>
 								</div>
 							</div>

@@ -13,6 +13,7 @@
     <link th:href="@{/css/animate.css}" rel="stylesheet">
     <link th:href="@{/css/style.css}" rel="stylesheet">
     <link th:href="@{/css/login.css}" rel="stylesheet">
+     <link th:href="@{/js/plugins/layui/css/layui.css}"  rel="stylesheet">
     <link rel="shortcut icon" th:href="@{/img/favicon.ico}"/>
     <!--[if lt IE 9]>
     <meta http-equiv="refresh" content="0;ie.html"/>
@@ -56,8 +57,8 @@
             <form id="signupForm">
                 <h3 class="text-center">用户登录</h3>
                 <p class="m-t-md text-center">欢迎使用后台管理系统</p>
-                <input type="text"   name="username" value="appadmin" class="form-control uname"  />
-                <input type="password"  name="password"  value="admin123" class="form-control pword m-b" />
+                <input type="text"   name="username" value="admin" class="form-control uname"  />
+                <input type="password"  name="password"  value="admin" class="form-control pword m-b" />
                 <a id="login" class="btn btn-login btn-block">登录</a>
 <!--                 <div class="row">
                     <div class="col-xs-6 pull_left">
@@ -91,7 +92,7 @@
 <script th:src="@{/js/ajax-util.js}"></script>
 <script th:src="@{/js/plugins/validate/jquery.validate.min.js}"></script>
 <script th:src="@{/js/plugins/validate/messages_zh.min.js}"></script>
-<script th:src="@{/js/plugins/layer/layer.min.js}"></script>
+	<script th:src="@{/js/plugins/layui/layui.all.js}"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $("#login").on('click', function () {

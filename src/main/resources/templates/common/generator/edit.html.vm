@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <head th:include="include :: header"></head>
 <body class="gray-bg">
-	<div class="wrapper wrapper-content ">
+	<div class="mywrapper">
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="ibox float-e-margins">
@@ -32,7 +32,7 @@
 	</div>
 	</div>
 	<div th:include="include::footer"></div>
-	<script type="text/javascript" src="/js/appjs/${pathName}/${classname}/edit.js">
+	<script type="text/javascript" th:src="@{/js/appjs/${pathName}/${classname}/edit.js}">
 	</script>
 </body>
 </html>

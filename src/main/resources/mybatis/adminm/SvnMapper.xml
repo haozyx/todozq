@@ -4,17 +4,18 @@
 <mapper namespace="com.bootdo.adminm.dao.SvnDao">
 
 	<select id="get" resultType="com.bootdo.adminm.domain.SvnDO">
-		select `svnid`,`svn_module`,`svn_name`,`svn_url`,`svn_version` from admin_svn where svnid = #{value}
+		select `svnid`,`svn_module`,`svn_name`,`svn_url`,`svn_version`,`userid` from admin_svn where svnid = #{value}
 	</select>
 
 	<select id="list" resultType="com.bootdo.adminm.domain.SvnDO">
-		select `svnid`,`svn_module`,`svn_name`,`svn_url`,`svn_version` from admin_svn
+		select `svnid`,`svn_module`,`svn_name`,`svn_url`,`svn_version`,`userid` from admin_svn
         <where>  
 		  		  <if test="svnid != null and svnid != ''"> and svnid = #{svnid} </if>
 		  		  <if test="svnModule != null and svnModule != ''"> and svn_module = #{svnModule} </if>
-		  		  <if test="svnName != null and svnName != ''"> and svn_name  LIKE CONCAT('%',#{svnName},'%')</if>
+		  		  <if test="svnName != null and svnName != ''">  and svn_name  LIKE CONCAT('%',#{svnName},'%') </if>
 		  		  <if test="svnUrl != null and svnUrl != ''"> and svn_url = #{svnUrl} </if>
 		  		  <if test="svnVersion != null and svnVersion != ''"> and svn_version = #{svnVersion} </if>
+		  		  <if test="userid != null and userid != ''"> and userid = #{userid} </if>
 		  		</where>
         <choose>
             <when test="sort != null and sort.trim() != ''">
@@ -34,9 +35,10 @@
 		 <where>  
 		  		  <if test="svnid != null and svnid != ''"> and svnid = #{svnid} </if>
 		  		  <if test="svnModule != null and svnModule != ''"> and svn_module = #{svnModule} </if>
-		  		  <if test="svnName != null and svnName != ''"> and svn_name = #{svnName} </if>
+		  		  <if test="svnName != null and svnName != ''">  and svn_name  LIKE CONCAT('%',#{svnName},'%')</if>
 		  		  <if test="svnUrl != null and svnUrl != ''"> and svn_url = #{svnUrl} </if>
 		  		  <if test="svnVersion != null and svnVersion != ''"> and svn_version = #{svnVersion} </if>
+		  		  <if test="userid != null and userid != ''"> and userid = #{userid} </if>
 		  		</where>
 	</select>
 	 
@@ -46,14 +48,16 @@
 			`svn_module`, 
 			`svn_name`, 
 			`svn_url`, 
-			`svn_version`
+			`svn_version`, 
+			`userid`
 		)
 		values
 		(
 			#{svnModule}, 
 			#{svnName}, 
 			#{svnUrl}, 
-			#{svnVersion}
+			#{svnVersion}, 
+			#{userid}
 		)
 	</insert>
 	 
@@ -63,7 +67,8 @@
 			<if test="svnModule != null">`svn_module` = #{svnModule}, </if>
 			<if test="svnName != null">`svn_name` = #{svnName}, </if>
 			<if test="svnUrl != null">`svn_url` = #{svnUrl}, </if>
-			<if test="svnVersion != null">`svn_version` = #{svnVersion}</if>
+			<if test="svnVersion != null">`svn_version` = #{svnVersion}, </if>
+			<if test="userid != null">`userid` = #{userid}</if>
 		</set>
 		where svnid = #{svnid}
 	</update>

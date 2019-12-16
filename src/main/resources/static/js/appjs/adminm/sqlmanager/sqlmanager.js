@@ -59,24 +59,26 @@ function load() {
 								},
 																{
 									field : 'id', 
-									title : '编号' 
+									title : '编号',
+									width:'3%'
 								},
 																{
 									field : 'name', 
-									width : '12%',
+									width : '25%',
 									title : 'sql用途' 
 								},
 																{
 									field : 'sqlcontent', 
-									title : 'sql内容' ,
-									width : '60%',
+									title : 'sql内容(双击查看详情可复制)' ,
+									/*width : '30%',*/
 									formatter :function(value,row,index){
-										return value.length>100 ? "<code>"+value.substr(0,99)+"..."+"</code>":"<code>"+value+"</code>";
+										return value.length>60 ? "<code>"+value.substr(0,60)+"..."+"</code>":"<code>"+value+"</code>";
 									}
 								},
 																{
 									field : 'sqldesp', 
-									title : '备注' 
+									title : '备注',
+									width:'12%'
 								},
 																{
 									title : '操作',
@@ -132,7 +134,7 @@ function add() {
 		title : '增加',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '520px' ],
+		area : [ '800px', '355px' ],
 		content : prefix + '/add' // iframe的url
 	});
 }
@@ -142,7 +144,7 @@ function edit(id) {
 		title : '编辑',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '520px' ],
+		area : [ '800px', '355px' ],
 		content : prefix + '/edit/' + id // iframe的url
 	});
 }
@@ -157,7 +159,7 @@ function remove(id) {
 				'id' : id
 			},
 			success : function(r) {
-				if (r.code==0) {
+				if (r.code==200) {
 					layer.msg(r.msg);
 					reLoad();
 				}else{

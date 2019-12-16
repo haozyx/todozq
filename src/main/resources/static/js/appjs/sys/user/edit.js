@@ -21,7 +21,7 @@ function update() {
 			alert("Connection error");
 		},
 		success : function(data) {
-			if (data.code == 0) {
+			if (data.code == 200) {
 				parent.layer.msg(data.msg);
 				parent.reLoad();
 				var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
