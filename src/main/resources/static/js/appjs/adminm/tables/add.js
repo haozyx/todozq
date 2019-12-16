@@ -16,9 +16,10 @@ function loadmodule(){
 		type:'post',
 		data:{typecode : 'DATABASETABLE'},
 		success : function(data) {
+			 
 			// 加载数据
 			for (var i = 0; i < data.length; i++) {
-				html += '<option value="' + data[i].disCode + '">' + data[i].disName + '</option>'
+				html += '<option value="' + data[i].id + '">' + data[i].disName + '</option>'
 			}
 			$("#tablecategory").append(html);
 			$("#tablecategory").chosen({

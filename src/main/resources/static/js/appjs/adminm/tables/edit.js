@@ -18,7 +18,7 @@ function loadmodule(){
 		success : function(data) {
 			// 加载数据
 			for (var i = 0; i < data.length; i++) {
-				html += '<option value="' + data[i].disCode + '">' + data[i].disName + '</option>'
+				html += '<option value="' + data[i].id + '">' + data[i].disName + '</option>'
 			}
 			$("#tablecategory").append(html);
 			$("#tablecategory").chosen({
@@ -26,7 +26,7 @@ function loadmodule(){
 				search_contains: true, //启用模糊搜索
 				disable_search: false // 启用搜索狂
 			});
-		 
+			$("#tablecategory").val(t_c);
 			$("#tablecategory").trigger("chosen:updated");
 			// 点击事件
 			$("#tablecategory").on('change', function(e, params) {

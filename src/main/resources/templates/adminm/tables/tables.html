@@ -21,9 +21,16 @@
 							<button class="btn btn-success" onclick="reLoad()">查询</button>
 						</div>
 						<div class="columns pull-right col-md-2 nopadding">
-							<input id="searchName" type="text" class="form-control"
-								placeholder="">
+							<input id="searchName" placeholder="表名" type="text" class="form-control" >
 						</div>
+						 
+						<div class="columns pull-right col-md-2 ">
+							 	<select id="tablecategory"    class="form-control chosen-select"
+								tabindex="2" style="width: 100%" >
+								<option value="">请选择模块：</option>
+							</select>
+						</div>
+						
 					</div>
 					<table id="exampleTable" data-mobile-responsive="true">
 					</table>

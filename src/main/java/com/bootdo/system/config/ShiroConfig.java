@@ -57,12 +57,11 @@ public class ShiroConfig {
     ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);  //设置安全管理器 相当于注入了securityManager
-        shiroFilterFactoryBean.setLoginUrl("/youcandoit");  //登录界面
-        shiroFilterFactoryBean.setSuccessUrl("/nodoornoway"); //登录成功之后跳转界面
+        shiroFilterFactoryBean.setLoginUrl("/login");  //登录界面
+        shiroFilterFactoryBean.setSuccessUrl("/admin_main"); //登录成功之后跳转界面
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");// 未授权界面
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-        filterChainDefinitionMap.put("/baidu_verify_UjgmuF5wfc.html","anon");  // 过滤链定义，从上到下顺序执行。/**放在最下面，anon 都可以访问，authc 授权才能访问
-        filterChainDefinitionMap.put("/youcandoit","anon");  // 过滤链定义，从上到下顺序执行。/**放在最下面，anon 都可以访问，authc 授权才能访问
+        filterChainDefinitionMap.put("/login","anon");  // 过滤链定义，从上到下顺序执行。/**放在最下面，anon 都可以访问，authc 授权才能访问
         filterChainDefinitionMap.put("/truelogin","anon");  // 过滤链定义，从上到下顺序执行。/**放在最下面，anon 都可以访问，authc 授权才能访问
         filterChainDefinitionMap.put("/getVerify","anon");
         filterChainDefinitionMap.put("/css/**", "anon");
@@ -84,11 +83,11 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/zy", "anon"); //竟然是两个地址
         filterChainDefinitionMap.put("/zy/post/**", "anon");
         filterChainDefinitionMap.put("/zy/index/**", "anon");
-        filterChainDefinitionMap.put("/nodoornoway", "authc");
+        filterChainDefinitionMap.put("/admin_main", "authc"); //登录成功之后的链接需要权限验证
         filterChainDefinitionMap.put("/adminm/**", "authc");
         
         LogoutFilter logoutFilter = new LogoutFilter();
-		logoutFilter.setRedirectUrl("/youcandoit");
+		logoutFilter.setRedirectUrl("/login");
         
         RestfulFilter restfulFilter = new RestfulFilter();
 

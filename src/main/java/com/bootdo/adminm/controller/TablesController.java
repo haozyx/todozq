@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bootdo.adminm.domain.DicdatasetDO;
 import com.bootdo.adminm.domain.TablesDO;
+import com.bootdo.adminm.service.DicdatasetService;
 import com.bootdo.adminm.service.TablesService;
 import com.bootdo.common.utils.PageUtils;
 import com.bootdo.common.utils.Query;
@@ -34,6 +36,9 @@ import com.bootdo.common.utils.R;
 public class TablesController {
 	@Autowired
 	private TablesService tablesService;
+	
+	@Autowired
+	private DicdatasetService dicdatasetService;
 	
 	@GetMapping()
 	@RequiresPermissions("adminm:tables:tables")
@@ -66,6 +71,24 @@ public class TablesController {
 		model.addAttribute("tables", tables);
 	    return "adminm/tables/edit";
 	}
+	
+	
+	@GetMapping("/view/{id}")
+	@RequiresPermissions("adminm:tables:view")
+	String view(@PathVariable("id") Integer id,Model model){
+		
+		TablesDO tables = tablesService.get(id);
+		
+		Integer categoryid = tables.getTablecategory();
+		
+		DicdatasetDO do1 = dicdatasetService.get(categoryid);
+		
+		model.addAttribute("tables", tables);
+		model.addAttribute("categoryname", do1.getDisName());
+		
+	    return "adminm/tables/view";
+	}
+
 	
 	/**
 	 * 保存

@@ -12,8 +12,8 @@
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="tablecategory != null and tablecategory != ''"> and tablecategory = #{tablecategory} </if>
-		  		  <if test="entablename != null and entablename != ''"> and entablename = #{entablename} </if>
-		  		  <if test="zntablename != null and zntablename != ''"> and zntablename = #{zntablename} </if>
+		  		  <if test="tablename != null and tablename != ''">  and entablename  LIKE CONCAT('%',#{tablename},'%') or zntablename  LIKE CONCAT('%',#{tablename},'%') </if>
+		  		   
 		  		  <if test="tablerelations != null and tablerelations != ''"> and tablerelations = #{tablerelations} </if>
 		  		  <if test="vwrelations != null and vwrelations != ''"> and vwrelations = #{vwrelations} </if>
 		  		  <if test="seqrelation != null and seqrelation != ''"> and seqrelation = #{seqrelation} </if>
@@ -37,8 +37,8 @@
 		 <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="tablecategory != null and tablecategory != ''"> and tablecategory = #{tablecategory} </if>
-		  		  <if test="entablename != null and entablename != ''"> and entablename = #{entablename} </if>
-		  		  <if test="zntablename != null and zntablename != ''"> and zntablename = #{zntablename} </if>
+		  		  <if test="tablename != null and tablename != ''"> and entablename  LIKE CONCAT('%',#{tablename},'%') or zntablename LIKE CONCAT('%',#{tablename},'%') </if>
+		  		  
 		  		  <if test="tablerelations != null and tablerelations != ''"> and tablerelations = #{tablerelations} </if>
 		  		  <if test="vwrelations != null and vwrelations != ''"> and vwrelations = #{vwrelations} </if>
 		  		  <if test="seqrelation != null and seqrelation != ''"> and seqrelation = #{seqrelation} </if>

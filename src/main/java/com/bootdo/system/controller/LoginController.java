@@ -44,15 +44,9 @@ public class LoginController extends BaseController {
 
         return "redirect:/zy/index";
     }
-    
-	@GetMapping(value = { "/baidu_verify_4cztyZgayw.html" })
-	public String baiduvalid(Model model) {
-		// 百度验证
-		return  "baiduvalid";
-	}
 
     @Log("请求访问主页")
-    @GetMapping({"/nodoornoway"})
+    @GetMapping({"/admin_main"})
     String index(Model model) {
         List<Tree<MenuDO>> menus = menuService.listMenuTree(getUserId());
         model.addAttribute("menus", menus);
@@ -71,7 +65,7 @@ public class LoginController extends BaseController {
         return "index_v1";
     }
 
-    @GetMapping("/youcandoit")
+    @GetMapping("/login")
     String login(Model model) {
         model.addAttribute("username", bootdoConfig.getUsername());
         model.addAttribute("password", bootdoConfig.getPassword());

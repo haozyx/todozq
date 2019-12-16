@@ -5,7 +5,7 @@ server:
 #        min-spare-threads: 30
   port: 8085
   servlet: 
-    context-path: /todozq
+    context-path: /a
   compression:
     enabled: true
     min-response-size: 2048
