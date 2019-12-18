@@ -1,38 +1,7 @@
 
-var prefix = cctx + "adminm/tables";
-var d_map =new Map();
+var prefix = "/adminm/tablefield"
 $(function() {
-	
-	jqAjax({url :  cctx +"adminm/dic/getdicdata/",
-		type : "post",
-		data : {
-			'typecode' : 'DATABASETABLE'
-		}}).then(res=>{
-			$.each(res,function(i,v){
-				d_map.set(v.id,v.disName);
-			});
-			//给下拉框赋值
-			var html ='';
-			for (var i = 0; i < res.length; i++) {
-				html += '<option value="' + res[i].id + '">' + res[i].disName + '</option>'
-			}
-			$("#tablecategory").append(html);
-			$("#tablecategory").chosen({
-				maxHeight : 200,
-				search_contains: true, //启用模糊搜索
-				disable_search: false // 启用搜索狂
-			});
-		 
-			$("#tablecategory").trigger("chosen:updated");
-			// 点击事件
-			$("#tablecategory").on('change', function(e, params) {
-				$(this).valid();
-			});
-			
-			
-			load();
-		});
-	
+	load();
 });
 
 function load() {
@@ -56,7 +25,7 @@ function load() {
 						// //发送到服务器的数据编码类型
 						pageSize : 10, // 如果设置了分页，每页数据条数
 						pageNumber : 1, // 如果设置了分布，首页页码
-						search : false, // 是否显示搜索框
+						//search : true, // 是否显示搜索框
 						showColumns : false, // 是否显示内容下拉框（选择显示的列）
 						sidePagination : "server", // 设置在哪里进行分页，可选值为"client" 或者 "server"
 						queryParams : function(params) {
@@ -76,62 +45,32 @@ function load() {
 						// 返回false将会终止请求
 						columns : [
 								{
-									checkbox : true,
-									width:"1%"
+									checkbox : true
 								},
 																{
 									field : 'id', 
-									title : '编号' ,
-									width:"2%"
+									title : '' 
 								},
 																{
-									field : 'tablecategory', 
-									title : '模块',
-									width:"10%",
-									formatter : function(value, row, index) {
-										//console.info(d_map);
-										//console.info(d_map.get(value));
-										return d_map.get(value);
-									}
+									field : 'fieldname', 
+									title : '字段名' 
 								},
 																{
-									field : 'entablename', 
-									title : '表名',
-									width:"10%"
+									field : 'fieldtype', 
+									title : '字段类型' 
 								},
 																{
-									field : 'zntablename', 
-									title : '中文表名' ,
-									width:"10%"
+									field : 'fieldnote', 
+									title : '字段注释' 
 								},
 																{
-									field : 'tablerelations', 
-									title : '表之间关联关系' ,
-									width:"10%",
-									formatter :function(value,row,index){
-										return value.length>10 ? "<code>"+value.substr(0,10)+"..."+"</code>":"<code>"+value+"</code>";
-									}
-								},
-								/*							{
-									field : 'vwrelations', 
-									title : '视图关联' 
-								},
-																{
-									field : 'seqrelation', 
-									title : '序列关联' 
-								},*/
-								{
-									field : 'note', 
-									title : '备注说明',
-									formatter :function(value,row,index){
-										return value.length>30 ? "<code>"+value.substr(0,30)+"..."+"</code>":"<code>"+value+"</code>";
-									}
+									field : 'fieldisnull', 
+									title : '字段是否为空' 
 								},
 																{
 									title : '操作',
 									field : 'id',
 									align : 'center',
-									width:"15%",
 									formatter : function(value, row, index) {
 										var e = '<a class="btn btn-primary btn-sm '+s_edit_h+'" href="#" mce_href="#" title="编辑" onclick="edit(\''
 												+ row.id
@@ -139,35 +78,24 @@ function load() {
 										var d = '<a class="btn btn-warning btn-sm '+s_remove_h+'" href="#" title="删除"  mce_href="#" onclick="remove(\''
 												+ row.id
 												+ '\')"><i class="fa fa-remove"></i></a> ';
-										var f = '<a class="btn btn-success btn-sm" href="#" title="查看"  mce_href="#" onclick="view(\''
+										var f = '<a class="btn btn-success btn-sm" href="#" title="备用"  mce_href="#" onclick="resetPwd(\''
 												+ row.id
-												+ '\')"><i class="fa fa-eye"></i></a> ';
-										return e + d +f;
+												+ '\')"><i class="fa fa-key"></i></a> ';
+										return e + d ;
 									}
 								} ]
 					});
 }
- 
-
 function reLoad() {
-	
-	var opt ={
-			query :{
-				tablecategory : $('#tablecategory').val(),
-				tablename : $('#searchName').val()
-			}
-	};
-	
-	$('#exampleTable').bootstrapTable('refresh',opt);
+	$('#exampleTable').bootstrapTable('refresh');
 }
-
 function add() {
 	layer.open({
 		type : 2,
 		title : '增加',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '380px' ],
+		area : [ '800px', '520px' ],
 		content : prefix + '/add' // iframe的url
 	});
 }
@@ -177,22 +105,10 @@ function edit(id) {
 		title : '编辑',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '380px' ],
+		area : [ '800px', '520px' ],
 		content : prefix + '/edit/' + id // iframe的url
 	});
 }
-
-function view(id) {
-	layer.open({
-		type : 2,
-		title : '详情',
-		maxmin : true,
-		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '380px' ],
-		content : prefix + '/view/' + id // iframe的url
-	});
-}
-
 function remove(id) {
 	layer.confirm('确定要删除选中的记录？', {
 		btn : [ '确定', '取消' ]
@@ -217,25 +133,37 @@ function remove(id) {
 
 function resetPwd(id) {
 }
-
-function viewTableField() {
+function batchRemove() {
 	var rows = $('#exampleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
 	if (rows.length == 0) {
-		layer.msg("请选择要操作的数据");
+		layer.msg("请选择要删除的数据");
 		return;
 	}
-	if (rows.length > 1) {
-		layer.msg("只能选择一条数据");
-		return;
-	}
-	 
-	var tableid = rows[0].id;
-	layer.open({
-		type : 2,
-		title : '详情',
-		maxmin : true,
-		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '380px' ],
-		content : cctx+ 'adminm/tablefield/list/' + tableid // iframe的url
+	layer.confirm("确认要删除选中的'" + rows.length + "'条数据吗?", {
+		btn : [ '确定', '取消' ]
+	// 按钮
+	}, function() {
+		var ids = new Array();
+		// 遍历所有选择的行数据，取每条数据对应的ID
+		$.each(rows, function(i, row) {
+			ids[i] = row['id'];
+		});
+		$.ajax({
+			type : 'POST',
+			data : {
+				"ids" : ids
+			},
+			url : prefix + '/batchRemove',
+			success : function(r) {
+				if (r.code == 0) {
+					layer.msg(r.msg);
+					reLoad();
+				} else {
+					layer.msg(r.msg);
+				}
+			}
+		});
+	}, function() {
+
 	});
 }

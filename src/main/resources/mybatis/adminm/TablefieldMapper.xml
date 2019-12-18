@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.adminm.dao.TablefieldDao">
+
+	<select id="get" resultType="com.bootdo.adminm.domain.TablefieldDO">
+		select `id`,`tableid`,`fieldname`,`fieldtype`,`fieldnote`,`fieldisnull` from admin_tablefield where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.adminm.domain.TablefieldDO">
+		select `id`,`tableid`,`fieldname`,`fieldtype`,`fieldnote`,`fieldisnull` from admin_tablefield
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="tableid != null and tableid != ''"> and tableid = #{tableid} </if>
+		  		  <if test="fieldname != null and fieldname != ''"> and fieldname = #{fieldname} </if>
+		  		  <if test="fieldtype != null and fieldtype != ''"> and fieldtype = #{fieldtype} </if>
+		  		  <if test="fieldnote != null and fieldnote != ''"> and fieldnote = #{fieldnote} </if>
+		  		  <if test="fieldisnull != null and fieldisnull != ''"> and fieldisnull = #{fieldisnull} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from admin_tablefield
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="tableid != null and tableid != ''"> and tableid = #{tableid} </if>
+		  		  <if test="fieldname != null and fieldname != ''"> and fieldname = #{fieldname} </if>
+		  		  <if test="fieldtype != null and fieldtype != ''"> and fieldtype = #{fieldtype} </if>
+		  		  <if test="fieldnote != null and fieldnote != ''"> and fieldnote = #{fieldnote} </if>
+		  		  <if test="fieldisnull != null and fieldisnull != ''"> and fieldisnull = #{fieldisnull} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.adminm.domain.TablefieldDO" useGeneratedKeys="true" keyProperty="id">
+		insert into admin_tablefield
+		(
+			`tableid`, 
+			`fieldname`, 
+			`fieldtype`, 
+			`fieldnote`, 
+			`fieldisnull`
+		)
+		values
+		(
+			#{tableid}, 
+			#{fieldname}, 
+			#{fieldtype}, 
+			#{fieldnote}, 
+			#{fieldisnull}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.adminm.domain.TablefieldDO">
+		update admin_tablefield 
+		<set>
+			<if test="tableid != null">`tableid` = #{tableid}, </if>
+			<if test="fieldname != null">`fieldname` = #{fieldname}, </if>
+			<if test="fieldtype != null">`fieldtype` = #{fieldtype}, </if>
+			<if test="fieldnote != null">`fieldnote` = #{fieldnote}, </if>
+			<if test="fieldisnull != null">`fieldisnull` = #{fieldisnull}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from admin_tablefield where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from admin_tablefield where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

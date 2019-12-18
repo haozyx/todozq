@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bootdo.adminm.domain.DicdatasetDO;
 import com.bootdo.adminm.domain.TablesDO;
+import com.bootdo.adminm.service.AppCustomService;
 import com.bootdo.adminm.service.DicdatasetService;
 import com.bootdo.adminm.service.TablesService;
 import com.bootdo.common.utils.PageUtils;
@@ -39,6 +40,8 @@ public class TablesController {
 	
 	@Autowired
 	private DicdatasetService dicdatasetService;
+	@Autowired
+	private AppCustomService appService;
 	
 	@GetMapping()
 	@RequiresPermissions("adminm:tables:tables")
@@ -97,6 +100,14 @@ public class TablesController {
 	@PostMapping("/save")
 	@RequiresPermissions("adminm:tables:add")
 	public R save( TablesDO tables){
+		
+		//保存之前进行表名的小写转换
+		String tablename = tables.getEntablename().toLowerCase();
+		String existsql = "select count(1) from admin_tables where entablename='"+tablename+"'";
+		
+		if("1".equals(appService.selectOne(existsql))) return R.error("该表已经存在");
+		
+		tables.setEntablename(tablename);
 		if(tablesService.save(tables)>0){
 			return R.ok();
 		}

@@ -9,28 +9,21 @@
 				<div class="ibox-body">
 					<div class="fixed-table-toolbar">
 						<div class="columns pull-left">
-							<button shiro:hasPermission="adminm:tables:add" type="button" class="btn  btn-primary" onclick="add()">
+							<button shiro:hasPermission="adminm:tablefield:add" type="button" class="btn  btn-primary" onclick="add()">
 								<i class="fa fa-plus" aria-hidden="true"></i>添加
 							</button>
-							<button shiro:hasPermission="adminm:tablefield:tablefield" type="button" class="btn  btn-primary"
-								onclick="viewTableField()">
-								<i class="fa fa-database" aria-hidden="true"></i>表字段管理
+							<button shiro:hasPermission="adminm:tablefield:batchRemove" type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
 							</button>
 						</div>
 						<div class="columns pull-right">
 							<button class="btn btn-success" onclick="reLoad()">查询</button>
 						</div>
 						<div class="columns pull-right col-md-2 nopadding">
-							<input id="searchName" placeholder="表名" type="text" class="form-control" >
+							<input id="searchName" type="text" class="form-control"
+								placeholder="">
 						</div>
-						 
-						<div class="columns pull-right col-md-2 ">
-							 	<select id="tablecategory"    class="form-control chosen-select"
-								tabindex="2" style="width: 100%" >
-								<option value="">请选择模块：</option>
-							</select>
-						</div>
-						
 					</div>
 					<table id="exampleTable" data-mobile-responsive="true">
 					</table>
@@ -46,23 +39,23 @@
 				var s_resetPwd_h = 'hidden';
 			</script>
 		</div>
-		<div shiro:hasPermission="adminm:tables:edit">
+		<div shiro:hasPermission="adminm:tablefield:edit">
 			<script type="text/javascript">
 				s_edit_h = '';
 			</script>
 		</div>
-		<div shiro:hasPermission="adminm:tables:remove">
+		<div shiro:hasPermission="adminm:tablefield:remove">
 			<script type="text/javascript">
 				var s_remove_h = '';
 			</script>
 		</div>
-		<div shiro:hasPermission="adminm:tables:resetPwd">
+		<div shiro:hasPermission="adminm:tablefield:resetPwd">
 			<script type="text/javascript">
 				var s_resetPwd_h = '';
 			</script>
 		</div>
 	</div>
 	<div th:include="include :: footer"></div>
-	<script type="text/javascript" th:src="@{/js/appjs/adminm/tables/tables.js}"></script>
+	<script type="text/javascript" th:src="@{/tablefield.js}"></script>
 </body>
 </html>

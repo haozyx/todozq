@@ -42,7 +42,7 @@
 }
 
 .mywrapper{
-	padding: 5px;
+	padding: 10px;
 }
 .nopadding{
 	padding: 0px;
@@ -62,5 +62,8 @@
 .myinputblock{
 	margin-left: 10px;
 	width:80%;
+}
+.noborderradius{
+	border-radius: 0%;
 }
 
