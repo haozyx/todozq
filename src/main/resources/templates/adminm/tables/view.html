@@ -10,6 +10,7 @@
 					<!-- Default panel contents -->
 					<div class="panel-body">
 						<p  th:text="'表名         :       '+${tables.entablename}"></p>
+						<input type="hidden" id="tableid" th:value="${tables.id}"/>
 					</div>
 
 					<!-- Table -->
@@ -40,7 +41,7 @@
 						</tr>
 						<tr>
 							<td   colspan="2" style="text-align: center;">
-								<button class="btn btn-info noborderradius" type="button" onclick=""> 表字段</button>							
+								<button class="btn btn-info noborderradius" type="button" onclick="viewTableField()"> 表字段</button>							
 								<button class="btn btn-info noborderradius" type="button" onclick="back()"> 返回</button>							
 							</td>
 						</tr>
@@ -55,7 +56,19 @@
 			var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
 			parent.layer.close(index);
 		}
-	
+		function viewTableField() {
+			var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+			parent.layer.close(index);
+			var tableid = $("#tableid").val();
+			parent.layer.open({
+				type : 2,
+				title : '详情',
+				maxmin : true,
+				shadeClose : false, // 点击遮罩关闭层
+				area : [ '800px', '380px' ],
+				content : cctx+ 'adminm/tablefield/list/' + tableid// iframe的url
+			});
+		}
 	</script>
 </body>
 </html>

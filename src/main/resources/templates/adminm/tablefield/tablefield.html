@@ -3,59 +3,121 @@
 <meta charset="utf-8">
 <head th:include="include :: header"></head>
 <body class="gray-bg">
-	<div class="mywrapper">
-		<div class="col-sm-12">
-			<div class="ibox">
-				<div class="ibox-body">
-					<div class="fixed-table-toolbar">
-						<div class="columns pull-left">
-							<button shiro:hasPermission="adminm:tablefield:add" type="button" class="btn  btn-primary" onclick="add()">
-								<i class="fa fa-plus" aria-hidden="true"></i>添加
-							</button>
-							<button shiro:hasPermission="adminm:tablefield:batchRemove" type="button" class="btn  btn-danger"
-								onclick="batchRemove()">
-								<i class="fa fa-trash" aria-hidden="true"></i>删除
-							</button>
-						</div>
-						<div class="columns pull-right">
-							<button class="btn btn-success" onclick="reLoad()">查询</button>
-						</div>
-						<div class="columns pull-right col-md-2 nopadding">
-							<input id="searchName" type="text" class="form-control"
-								placeholder="">
-						</div>
+ 	<div class="mywrapper">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="panel panel-default">
+					<!-- Default panel contents -->
+					<div class="panel-body">
+						<p  style="font-size:14px;font-weight: bold;" th:text="'表名         :       '+${tablename}"></p>
 					</div>
-					<table id="exampleTable" data-mobile-responsive="true">
+
+					<!-- Table -->
+					<table class="table table-bordered">
+						<tr>
+							<th width="15%"> 字段名</th>
+							<th width="15%">字段类型</th>
+							<th width="10%">是否为空</th>
+							<th width="50%">注释</th>
+							<th width="10%">操作</th>
+						</tr>
+						
+						
+						<tr th:each="tf:${tablefieldlist}">
+							<td width="15%" th:text="${tf.fieldname}"> 字段名</td>
+							<td width="15%" th:text="${tf.fieldtype}">字段类型</td>
+							<td width="10%" th:text="${tf.fieldisnull}">是否为空</td>
+							<td width="50%" th:text="${tf.fieldnote}">注释</td>
+							<td width="10%"><a style="color:blue;" href="javascript:;" th:onclick="|edittablefield('${tf.id}')|">编辑 </a>
+							 </td>
+						</tr>
+						
+						<tr th:if="${#lists.isEmpty(tablefieldlist)}">
+							<td   colspan="5" style="text-align: center;">
+								<i class="fa fa-smile-o" aria-hidden="true"></i>&nbsp;嗨,什么都没有呢?
+							</td>
+						</tr>
+						 
+						<tr>
+							<td   colspan="5" style="text-align: center;">
+								<button shiro:hasPermission="adminm:tablefield:add" class="btn btn-info  noborderradius" type="button" onclick="addtablefield()"> 添加</button>							
+								<button shiro:hasPermission="adminm:tablefield:import" class="btn btn-info noborderradius " type="button" onclick="openfileselect()"> 导入</button>							
+								<button class="btn btn-info noborderradius" type="button" onclick="back()"> 返回</button>							
+							</td>
+						</tr>
 					</table>
 				</div>
 			</div>
-		</div>
 	</div>
-	<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
-		<div>
-			<script type="text/javascript">
-				var s_edit_h = 'hidden';
-				var s_remove_h = 'hidden';
-				var s_resetPwd_h = 'hidden';
-			</script>
-		</div>
-		<div shiro:hasPermission="adminm:tablefield:edit">
-			<script type="text/javascript">
-				s_edit_h = '';
-			</script>
-		</div>
-		<div shiro:hasPermission="adminm:tablefield:remove">
-			<script type="text/javascript">
-				var s_remove_h = '';
-			</script>
-		</div>
-		<div shiro:hasPermission="adminm:tablefield:resetPwd">
-			<script type="text/javascript">
-				var s_resetPwd_h = '';
-			</script>
-		</div>
 	</div>
+	<!-- 导入文件选择框 -->
+	<div>
+		<form id="importfrom">
+			<input type="hidden" id="tableid" name="tableid" th:value="${tableid}"/>
+			<input type="file" name="file" id="btn_file" style="display:none" onchange="importfield()"/>
+		</form>
+	</div>
+	 
+ 
+ 
 	<div th:include="include :: footer"></div>
-	<script type="text/javascript" th:src="@{/tablefield.js}"></script>
+	<script type="text/javascript" >
+		function addtablefield(){
+			var tableid= $("#tableid").val();
+			if(!tableid) return;
+			layer.open({
+				type : 2,
+				title:false,
+				maxmin : false,
+				closeBtn: 0,
+				shadeClose : true, // 点击遮罩关闭层
+				area : [ '500px', '280px' ],
+				content : cctx + 'adminm/tablefield/add/'+tableid // iframe的url
+			});
+		}
+		function back(){
+			var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+			parent.layer.close(index);
+		}
+		function edittablefield(id){
+			layer.open({
+				type : 2,
+				title:false,
+				maxmin : false,
+				closeBtn: 0,
+				shadeClose : true, // 点击遮罩关闭层
+				area : [ '500px', '280px' ],
+				content : cctx + 'adminm/tablefield/edit/'+id // iframe的url
+			});
+		}
+		function reload(){
+			location.reload(); 
+		}
+		//打开文件选择框
+		function openfileselect(){
+			$("#btn_file").click();
+		}
+		//提交表单
+		function importfield(){
+			var fd = new FormData($("#importfrom")[0]);
+			// fd.append("name","zhangsna");
+			var uurl = cctx +"adminm/tablefield/import";
+			 $.ajax({
+				 url:uurl,
+				 type:'post',
+				 data: fd,// Form数据
+				 contentType: false,//使用form的enctype
+				 processData: false,
+				 success:function(data){
+					 if(data.code == 200){
+						layer.msg("导入成功");
+						location.reload(); 
+					 }else{
+						 layer.alert(data.msg);
+					 }
+				 }
+			 });
+		}
+	</script>
 </body>
 </html>

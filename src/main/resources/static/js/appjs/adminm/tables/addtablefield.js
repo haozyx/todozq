@@ -7,11 +7,14 @@ $.validator.setDefaults({
 		save();
 	}
 });
+
+ 
+
 function save() {
 	$.ajax({
 		cache : true,
 		type : "POST",
-		url :  cctx + "/adminm/tablefield/save",
+		url : cctx + "adminm/tablefield/save",
 		data : $('#signupForm').serialize(),// 你的formid
 		async : false,
 		error : function(request) {
@@ -20,7 +23,8 @@ function save() {
 		success : function(data) {
 			if (data.code == 200) {
 				parent.layer.msg("操作成功");
-				parent.reLoad();
+				parent.reload();
+				//关闭添加的窗口 
 				var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
 				parent.layer.close(index);
 
@@ -35,15 +39,25 @@ function save() {
 function validateRule() {
 	var icon = "<i class='fa fa-times-circle'></i> ";
 	$("#signupForm").validate({
+		ignore: ":hidden:not(select)", //解决jquerychoose 不验证的的问题
 		rules : {
-			name : {
+			fieldname:{
+				required : true
+			},
+			fieldtype:{
 				required : true
 			}
 		},
 		messages : {
-			name : {
-				required : icon + "请输入姓名"
-			}
-		}
+			fieldname : {
+				required : icon + "请输入字段名"
+			},
+			fieldtype : {
+				required : icon + "请输入字段类型"
+			} 
+		},
+		errorPlacement:function (error, element) {
+		        error.appendTo(element.parent());
+	    }
 	})
 }

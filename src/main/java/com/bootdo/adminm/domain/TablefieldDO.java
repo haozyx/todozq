@@ -3,6 +3,8 @@ package com.bootdo.adminm.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.bootdo.common.domain.ExcelColumn;
+
 
 
 /**
@@ -20,12 +22,16 @@ public class TablefieldDO implements Serializable {
 	//关联表ID
 	private Integer tableid;
 	//字段名
+	@ExcelColumn(value="列名",col=1)
 	private String fieldname;
 	//字段类型
+	@ExcelColumn(value="数据类型",col=2)
 	private String fieldtype;
 	//字段注释
+	@ExcelColumn(value="注释",col=3)
 	private String fieldnote;
 	//字段是否为空
+	@ExcelColumn(value="是否为空",col=4)
 	private String fieldisnull;
 
 	/**
@@ -100,4 +106,10 @@ public class TablefieldDO implements Serializable {
 	public String getFieldisnull() {
 		return fieldisnull;
 	}
+	@Override
+	public String toString() {
+		return "TablefieldDO [fieldname=" + fieldname + ", fieldtype=" + fieldtype + ", fieldnote=" + fieldnote
+				+ ", fieldisnull=" + fieldisnull + "]";
+	}
+	
 }

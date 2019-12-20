@@ -84,4 +84,13 @@
 		</foreach>
 	</delete>
 
+	<insert id="insertBatch">
+      INSERT INTO admin_tablefield( `tableid`,  `fieldname`,  `fieldtype`,  `fieldnote`,  `fieldisnull`)
+     		 VALUES
+      <foreach collection="tds" item="t" separator=",">
+      (#{t.tableid},#{t.fieldname},#{t.fieldtype},#{t.fieldnote},#{t.fieldisnull})
+      </foreach>
+     </insert>
+
+
 </mapper>

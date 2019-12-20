@@ -51,5 +51,10 @@ public class TablefieldServiceImpl implements TablefieldService {
 	public int batchRemove(Integer[] ids){
 		return tablefieldDao.batchRemove(ids);
 	}
+
+	@Override
+	public int insertBatch(List<TablefieldDO> tds) {
+		return tablefieldDao.insertBatch(tds);
+	}
 	
 }

@@ -27,4 +27,6 @@ public interface TablefieldService {
 	int remove(Integer id);
 	
 	int batchRemove(Integer[] ids);
+	
+	int insertBatch(List<TablefieldDO> tds);
 }
